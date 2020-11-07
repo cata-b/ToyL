@@ -4,7 +4,6 @@ import model.values.BoolValue;
 import model.values.IValue;
 
 public class BoolType implements IType {
-    private static BoolType instance = new BoolType();
 
     @Override
     public boolean equals(Object another) {

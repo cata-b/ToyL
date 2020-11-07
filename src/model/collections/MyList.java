@@ -83,6 +83,8 @@ public class MyList<T> implements MyIList<T> {
 
     @Override
     public String toString() {
-        return list.toString();
+        var result = new StringBuilder();
+        list.forEach(item -> result.append(item).append(System.lineSeparator()));
+        return result.substring(0, Math.max(result.length() - 1, 0));
     }
 }

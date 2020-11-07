@@ -6,62 +6,59 @@ import model.exceptions.ExpressionEvaluationException;
 import model.types.IntType;
 import model.values.IValue;
 import model.values.IntValue;
+import org.jetbrains.annotations.NotNull;
+
+import java.util.function.BiFunction;
 
 public class ArithExp implements IExp {
-    private IExp e1;
-    private IExp e2;
-    private int op; // 1 - '+', 2 - '-', 3 - '*', 4 - '/'
+    private final IExp e1;
+    private final IExp e2;
+    private final Operation op;
 
+    public enum Operation {
+        add(Integer::sum, "+"),
+        sub((Integer a, Integer b) -> a - b, "-"),
+        mul((Integer a, Integer b) -> a * b, "*"),
+        div((Integer a, Integer b) -> a / b, "/");
+
+        private final BiFunction<Integer, Integer, Integer> operation;
+        private final String symbol;
+
+        Operation(BiFunction<Integer, Integer, Integer> operation, String symbol) {
+            this.operation = operation;
+            this.symbol = symbol;
+        }
+
+        IntValue apply(IntValue a, IntValue b) throws DivisionByZeroException {
+            if (this.equals(div) && b.getVal() == 0)
+                throw new DivisionByZeroException("Division by zero");
+            return new IntValue(operation.apply(a.getVal(), b.getVal()));
+        }
+
+        @Override
+        public String toString() {
+            return symbol;
+        }
+    }
 
     public IExp getE1() {
         return e1;
-    }
-
-    public void setE1(IExp e1) {
-        this.e1 = e1;
     }
 
     public IExp getE2() {
         return e2;
     }
 
-    public void setE2(IExp e2) {
-        this.e2 = e2;
-    }
-
-    public int getOp() {
-        return op;
-    }
-
-    public void setOp(int op) {
-        this.op = op;
-    }
-
-    public ArithExp(int op, IExp e1, IExp e2) {
+    public ArithExp(Operation op, IExp e1, IExp e2) {
         this.e1 = e1;
         this.e2 = e2;
         this.op = op;
-    }
-
-    public ArithExp(char op, IExp e1, IExp e2) {
-        this.e1 = e1;
-        this.e2 = e2;
-        if (op == '+')
-            this.op = 1;
-        else if (op == '-')
-            this.op = 2;
-        else if (op == '*')
-            this.op = 3;
-        else if (op == '/')
-            this.op = 4;
     }
 
     @Override
-    public IValue eval(MyIDictionary<String, IValue> tbl) throws ExpressionEvaluationException {
+    public IValue eval(@NotNull MyIDictionary<String, IValue> tbl) throws ExpressionEvaluationException {
         if (e1 == null || e2 == null)
             throw new ExpressionEvaluationException("Null operand");
-        if (op <= 0 || op > 4)
-            throw new ExpressionEvaluationException("Invalid operator");
 
         IValue v1, v2;
         v1 = e1.eval(tbl);
@@ -74,21 +71,7 @@ public class ArithExp implements IExp {
 
         IntValue i1 = (IntValue) v1;
         IntValue i2 = (IntValue) v2;
-        int n1, n2;
-        n1 = i1.getVal();
-        n2 = i2.getVal();
-        if (op == 1)
-            return new IntValue(n1 + n2);
-        if (op == 2)
-            return new IntValue(n1 - n2);
-        if (op == 3)
-            return new IntValue(n1 * n2);
-        if (op == 4) {
-            if (n2 == 0)
-                throw new DivisionByZeroException("division by zero");
-            return new IntValue(n1 / n2);
-        }
-        return null;
+        return op.apply(i1, i2);
     }
 
     @Override
@@ -102,15 +85,6 @@ public class ArithExp implements IExp {
 
     @Override
     public String toString() {
-        char operator = 0;
-        if (op == 1)
-            operator = '+';
-        else if (op == 2)
-            operator = '-';
-        else if (op == 3)
-            operator = '*';
-        else if (op == 4)
-            operator = '/';
-        return e1.toString() + " " + operator + " " + e2.toString();
+        return e1.toString() + " " + op + " " + e2.toString();
     }
 }

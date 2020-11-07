@@ -7,7 +7,7 @@ import model.statements.IStmt;
 import repository.IRepository;
 
 public class Controller implements IController {
-    private IRepository repository;
+    private final IRepository repository;
 
     public Controller(IRepository repository) {
         this.repository = repository;
@@ -32,13 +32,13 @@ public class Controller implements IController {
         PrgState prg = repository.getCrtPrg();
         if (printStates)
             result.append(prg).append("\n");
+        repository.logPrgStateExec();
         while (!prg.getExeStack().empty()){
             oneStep(prg);
             if (printStates)
                 result.append(prg).append("\n");
+            repository.logPrgStateExec();
         }
-        for (int i = 0; i < prg.getOut().size(); i++)
-            result.append("\nProgram output: \n").append(prg.getOut().get(i));
         return result.toString();
     }
 }

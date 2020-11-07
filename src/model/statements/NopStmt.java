@@ -2,11 +2,12 @@ package model.statements;
 
 import model.PrgState;
 import model.exceptions.MyException;
+import org.jetbrains.annotations.NotNull;
 
 public class NopStmt implements IStmt {
 
     @Override
-    public PrgState execute(PrgState state) throws MyException {
+    public PrgState execute(@NotNull PrgState state) throws MyException {
         return state;
     }
 

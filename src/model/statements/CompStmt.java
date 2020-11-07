@@ -4,12 +4,13 @@ import model.PrgState;
 import model.collections.MyIStack;
 import model.exceptions.MyException;
 import model.exceptions.StatementExecutionException;
+import org.jetbrains.annotations.NotNull;
 
 public class CompStmt implements IStmt {
-    private IStmt first;
-    private IStmt second;
+    private final IStmt first;
+    private final IStmt second;
 
-    public CompStmt(IStmt first, IStmt second) {
+    public CompStmt(@NotNull IStmt first, @NotNull IStmt second) {
         this.first = first;
         this.second = second;
     }
@@ -18,27 +19,13 @@ public class CompStmt implements IStmt {
         return first;
     }
 
-    public void setFirst(IStmt statement) {
-        first = statement;
-    }
-
     public IStmt getSecond() {
         return second;
     }
 
-    public void setSecond(IStmt statement) {
-        second = statement;
-    }
-
     @Override
-    public PrgState execute(PrgState state) throws MyException {
-        if (state == null)
-            throw new StatementExecutionException("Program state was null.");
-        if (first == null || second == null)
-            throw new StatementExecutionException("One of the statements was null.");
+    public PrgState execute(@NotNull PrgState state) {
         MyIStack<IStmt> stk = state.getExeStack();
-        if (stk == null)
-            throw new StatementExecutionException("Program execution stack was null");
         stk.push(second);
         stk.push(first);
         return state;
@@ -47,8 +34,8 @@ public class CompStmt implements IStmt {
     @Override
     public IStmt copy() {
         return new CompStmt(
-                first != null ? first.copy() : null,
-                second != null ? second.copy() : null
+                 first.copy(),
+                 second.copy()
         );
     }
 

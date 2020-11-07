@@ -6,18 +6,24 @@ import model.collections.MyIStack;
 import model.exceptions.EmptyCollectionException;
 import model.statements.IStmt;
 import model.values.IValue;
+import model.values.StringValue;
+import org.jetbrains.annotations.NotNull;
+
+import java.io.BufferedReader;
 
 public class PrgState {
-    private MyIStack<IStmt> exeStack;
-    private MyIDictionary<String, IValue> symTable;
-    private MyIList<IValue> out;
+    private final MyIStack<IStmt> exeStack;
+    private final MyIDictionary<String, IValue> symTable;
+    private final MyIList<IValue> out;
+    private final MyIDictionary<StringValue, BufferedReader> fileTable;
     private IStmt originalProgram;
 
 
-    public PrgState(MyIStack<IStmt> stk, MyIDictionary<String, IValue> symTable, MyIList<IValue> ot, IStmt prg) {
+    public PrgState(@NotNull MyIStack<IStmt> stk, @NotNull MyIDictionary<String, IValue> symTable, @NotNull MyIList<IValue> ot, @NotNull MyIDictionary<StringValue, BufferedReader> fileTable, @NotNull IStmt prg) {
         exeStack = stk;
         this.symTable = symTable;
         out = ot;
+        this.fileTable = fileTable;
         originalProgram = prg.copy();
         stk.push(prg);
     }
@@ -29,35 +35,30 @@ public class PrgState {
             current = exeStack.peek();
         }
         catch (EmptyCollectionException ignored) {}
-        return //"Program: " + originalProgram.toString() + "\n" +
-                "Current statement: " + (current == null ? "None" : current) + "\n" +
-                "Symbol table: " + symTable.toString() + "\n" +
-                "Out: " + out.toString();
+        return "ExeStack:" + System.lineSeparator() +
+                exeStack.toString() + System.lineSeparator() +
+                "SymTable:" + System.lineSeparator() +
+                symTable.toString() + System.lineSeparator() +
+                "Out:" + System.lineSeparator() +
+                out.toString() + System.lineSeparator() +
+                "FileTable:" + System.lineSeparator() +
+                fileTable.toString();
     }
 
     public MyIStack<IStmt> getExeStack() {
         return exeStack;
     }
 
-    public void setExeStack(MyIStack<IStmt> stack){
-        exeStack = stack;
-    }
-
-
     public MyIDictionary<String, IValue> getSymTable() {
         return symTable;
-    }
-
-    public void setSymTable(MyIDictionary<String, IValue> symTable) {
-        this.symTable = symTable;
     }
 
     public MyIList<IValue> getOut() {
         return out;
     }
 
-    public void setOut(MyIList<IValue> out) {
-        this.out = out;
+    public MyIDictionary<StringValue, BufferedReader> getFileTable() {
+        return fileTable;
     }
 
     public IStmt getOriginalProgram() {
@@ -67,4 +68,5 @@ public class PrgState {
     public void setOriginalProgram(IStmt originalProgram) {
         this.originalProgram = originalProgram;
     }
+
 }

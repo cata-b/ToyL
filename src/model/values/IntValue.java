@@ -4,7 +4,7 @@ import model.types.IType;
 import model.types.IntType;
 
 public class IntValue implements IValue {
-    private int val;
+    private final int val;
 
     public IntValue(int val) {
         this.val = val;
@@ -27,6 +27,11 @@ public class IntValue implements IValue {
     @Override
     public IValue copy() {
         return new IntValue(val);
+    }
+
+    @Override
+    public boolean equals(Object another) {
+        return another instanceof IntValue && ((IntValue) another).val == val;
     }
 
 }

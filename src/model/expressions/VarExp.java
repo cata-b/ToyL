@@ -1,10 +1,10 @@
 package model.expressions;
 
 import model.collections.MyIDictionary;
-import model.exceptions.EmptyCollectionException;
 import model.exceptions.ExpressionEvaluationException;
 import model.exceptions.InvalidParameterException;
 import model.values.IValue;
+import org.jetbrains.annotations.NotNull;
 
 public class VarExp implements IExp {
     private String id;
@@ -22,9 +22,7 @@ public class VarExp implements IExp {
     }
 
     @Override
-    public IValue eval(MyIDictionary<String, IValue> tbl) throws ExpressionEvaluationException {
-        if (tbl == null)
-            throw new ExpressionEvaluationException("Null symbol table");
+    public IValue eval(@NotNull MyIDictionary<String, IValue> tbl) throws ExpressionEvaluationException {
         try {
             return tbl.get(id);
         } catch (InvalidParameterException e) {

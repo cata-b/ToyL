@@ -4,7 +4,7 @@ import model.types.IType;
 import model.types.BoolType;
 
 public class BoolValue implements IValue{
-    private boolean val;
+    private final boolean val;
 
     public BoolValue(boolean val) {
         this.val = val;
@@ -27,5 +27,10 @@ public class BoolValue implements IValue{
     @Override
     public IValue copy() {
         return new BoolValue(val);
+    }
+
+    @Override
+    public boolean equals(Object another) {
+        return another instanceof BoolValue && ((BoolValue) another).val == val;
     }
 }

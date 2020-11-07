@@ -1,11 +1,10 @@
 package model.statements;
 
 import model.PrgState;
-import model.exceptions.EmptyCollectionException;
 import model.exceptions.MyException;
-import model.exceptions.StatementExecutionException;
+import org.jetbrains.annotations.NotNull;
 
 public interface IStmt {
-    PrgState execute(PrgState state) throws MyException;
+    PrgState execute(@NotNull PrgState state) throws MyException;
     IStmt copy();
 }

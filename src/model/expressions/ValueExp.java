@@ -2,6 +2,7 @@ package model.expressions;
 
 import model.collections.MyIDictionary;
 import model.values.IValue;
+import org.jetbrains.annotations.NotNull;
 
 public class ValueExp implements IExp {
     private IValue val;
@@ -15,7 +16,7 @@ public class ValueExp implements IExp {
     }
 
     @Override
-    public IValue eval(MyIDictionary<String, IValue> tbl) {
+    public IValue eval(@NotNull MyIDictionary<String, IValue> tbl) {
         return val;
     }
 

@@ -34,4 +34,13 @@ public class MyStack<T> implements MyIStack<T> {
     public boolean empty() {
         return stack.isEmpty();
     }
+
+    @Override
+    public String toString() {
+        StringBuilder result = new StringBuilder();
+        stack.forEach(item -> result
+                .append(item.toString())
+                .append(System.lineSeparator()));
+        return result.substring(0, Math.max(result.length() - 1, 0));
+    }
 }

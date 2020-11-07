@@ -4,7 +4,6 @@ import model.values.IValue;
 import model.values.IntValue;
 
 public class IntType implements IType {
-    private static IntType instance = new IntType();
 
     @Override
     public boolean equals(Object another) {

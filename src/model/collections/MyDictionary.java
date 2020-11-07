@@ -1,65 +1,70 @@
 package model.collections;
 
-import model.exceptions.EmptyCollectionException;
 import model.exceptions.InvalidParameterException;
 
-import java.util.Hashtable;
+import java.util.HashMap;
 
 public class MyDictionary<K, V> implements MyIDictionary<K, V> {
-    private final Hashtable<K, V> hashtable = new Hashtable<>();
+    private final HashMap<K, V> hashmap = new HashMap<>();
 
     @Override
     public void clear() {
-        hashtable.clear();
+        hashmap.clear();
     }
 
     @Override
     public boolean contains(V value) throws InvalidParameterException {
         if (value == null)
             throw new InvalidParameterException("Given value was null");
-        return hashtable.contains(value);
+        return hashmap.containsValue(value);
     }
 
     @Override
     public boolean containsKey(K key) throws InvalidParameterException {
         if (key == null)
             throw new InvalidParameterException("Given key was null");
-        return hashtable.containsKey(key);
+        return hashmap.containsKey(key);
     }
 
     @Override
     public V get(K key) throws InvalidParameterException {
         if (key == null)
             throw new InvalidParameterException("Given key was null");
-        return hashtable.get(key);
+        return hashmap.get(key);
     }
 
     @Override
     public boolean isEmpty() {
-        return hashtable.isEmpty();
+        return hashmap.isEmpty();
     }
 
     @Override
     public V put(K key, V value) throws InvalidParameterException {
         if (key == null || value == null)
             throw new InvalidParameterException("Given key/value was null");
-        return hashtable.put(key, value);
+        return hashmap.put(key, value);
     }
 
     @Override
     public V remove(K key) throws InvalidParameterException {
         if (key == null)
             throw new InvalidParameterException("Given key was null");
-        return hashtable.remove(key);
+        return hashmap.remove(key);
     }
 
     @Override
     public int size() {
-        return hashtable.size();
+        return hashmap.size();
     }
 
     @Override
     public String toString() {
-        return hashtable.toString();
+        StringBuilder result = new StringBuilder();
+        hashmap.forEach((key, value) -> result
+                .append(key)
+                .append(" --> ")
+                .append(value)
+                .append(System.lineSeparator()));
+        return result.substring(0, Math.max(result.length() - 1, 0));
     }
 }
