@@ -69,6 +69,31 @@ class Interpreter {
                 new PrintStmt(new VarExp("n"))
         });
         menu.addCommand(new RunExampleCommand("3", ex3.toString(), ex3));
+
+        var ex4 = connectStmts(new IStmt[]{
+                new VarDeclStmt("v", new IntType()),
+                new AssignStmt("v", new ValueExp(new IntValue(2))),
+                new PrintStmt(new VarExp("v"))
+        });
+        menu.addCommand(new RunExampleCommand("4", ex4.toString(), ex4));
+
+        var ex5 = connectStmts(new IStmt[]{
+                new VarDeclStmt("a", new IntType()),
+                new VarDeclStmt("b", new IntType()),
+                new AssignStmt("a",
+                        new ArithExp(ArithExp.Operation.add,
+                                new ValueExp(new IntValue(2)),
+                                new ArithExp(ArithExp.Operation.mul,
+                                        new ValueExp(new IntValue(3)),
+                                        new ValueExp(new IntValue(5))))),
+                new AssignStmt("b",
+                        new ArithExp(ArithExp.Operation.add,
+                                new VarExp("a"),
+                                new ValueExp(new IntValue(1)))),
+                new PrintStmt(new VarExp("b"))
+        });
+        menu.addCommand(new RunExampleCommand("5", ex5.toString(), ex5));
+
         menu.show();
     }
 }

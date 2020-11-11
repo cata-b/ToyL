@@ -24,15 +24,15 @@ public class RelationalExp implements IExp {
         /** Smaller, < */
         sm((Integer a, Integer b) -> a < b, "<"),
         /** Smaller or equal, <= */
-        smeq((Integer a, Integer b) -> a < b, "<"),
+        smeq((Integer a, Integer b) -> a <= b, "<="),
         /** Equal, == */
-        eq((Integer a, Integer b) -> a < b, "<"),
+        eq((Integer a, Integer b) -> a == b, "=="),
         /** Not equal, != */
-        neq((Integer a, Integer b) -> a < b, "<"),
+        neq((Integer a, Integer b) -> a != b, "!="),
         /** Greater, > */
-        gt((Integer a, Integer b) -> a < b, "<"),
+        gt((Integer a, Integer b) -> a > b, ">"),
         /** Greater or equal, >= */
-        gteq((Integer a, Integer b) -> a < b, "<");
+        gteq((Integer a, Integer b) -> a >= b, ">=");
 
         private final BiFunction<Integer, Integer, Boolean> operation;
         private final String symbol;
