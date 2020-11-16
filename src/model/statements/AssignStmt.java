@@ -11,19 +11,19 @@ import model.types.*;
 import org.jetbrains.annotations.NotNull;
 
 public class AssignStmt implements IStmt {
-    private final String id;
-    private final IExp exp;
+    private final @NotNull String id;
+    private final @NotNull IExp exp;
 
     public AssignStmt(@NotNull String id, @NotNull IExp exp) {
         this.id = id;
         this.exp = exp;
     }
 
-    public String getId() {
+    public @NotNull String getId() {
         return id;
     }
 
-    public IExp getExp() {
+    public @NotNull IExp getExp() {
         return exp;
     }
 
@@ -34,7 +34,7 @@ public class AssignStmt implements IStmt {
         if (!symTbl.containsKey(id))
             throw new StatementExecutionException("the used variable" + id + " was not declared before");
 
-        IValue val = exp.eval(symTbl);
+        IValue val = exp.eval(symTbl, state.getHeap());
         IType typId = (symTbl.get(id)).getType();
 
         if (!(val.getType()).equals(typId))

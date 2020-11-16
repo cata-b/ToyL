@@ -30,6 +30,7 @@ public class Repository implements IRepository {
     public void logPrgStateExec() throws FileException, NoProgramLoadedException {
         try {
             try (var logFile = new PrintWriter(new BufferedWriter(new FileWriter(logFilePath, true)))) {
+                logFile.println("--------------------------------");
                 logFile.println(programs.get(0));
             } catch (IndexOutOfBoundsException e) {
                 throw new NoProgramLoadedException("No program has been loaded yet");

@@ -7,19 +7,19 @@ import model.exceptions.StatementExecutionException;
 import org.jetbrains.annotations.NotNull;
 
 public class CompStmt implements IStmt {
-    private final IStmt first;
-    private final IStmt second;
+    private final @NotNull IStmt first;
+    private final @NotNull IStmt second;
 
     public CompStmt(@NotNull IStmt first, @NotNull IStmt second) {
         this.first = first;
         this.second = second;
     }
 
-    public IStmt getFirst() {
+    public @NotNull IStmt getFirst() {
         return first;
     }
 
-    public IStmt getSecond() {
+    public @NotNull IStmt getSecond() {
         return second;
     }
 

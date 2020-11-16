@@ -2,10 +2,14 @@ package model.collections;
 
 import model.exceptions.InvalidParameterException;
 
+import java.util.Collection;
 import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 public class MyDictionary<K, V> implements MyIDictionary<K, V> {
-    private final HashMap<K, V> hashmap = new HashMap<>();
+    private HashMap<K, V> hashmap = new HashMap<>();
 
     @Override
     public void clear() {
@@ -55,6 +59,19 @@ public class MyDictionary<K, V> implements MyIDictionary<K, V> {
     @Override
     public int size() {
         return hashmap.size();
+    }
+
+    @Override
+    public Map<K, V> getContent() {
+        return hashmap.entrySet().stream().collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
+    }
+
+    @Override
+    public Map<K, V> setContent(Map<K, V> content) {
+        var old_map = hashmap;
+        hashmap = new HashMap<>();
+        hashmap.putAll(content);
+        return old_map;
     }
 
     @Override

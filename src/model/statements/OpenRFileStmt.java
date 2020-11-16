@@ -15,19 +15,19 @@ import java.io.FileReader;
 import java.io.IOException;
 
 public class OpenRFileStmt implements IStmt {
-    private final IExp fileNameExp;
+    private final @NotNull IExp fileNameExp;
 
     public OpenRFileStmt(@NotNull IExp fileNameExp) {
         this.fileNameExp = fileNameExp;
     }
 
-    public IExp getFileNameExp() {
+    public @NotNull IExp getFileNameExp() {
         return fileNameExp;
     }
 
     @Override
     public PrgState execute(@NotNull PrgState state) throws MyException {
-        var file_name = fileNameExp.eval(state.getSymTable());
+        var file_name = fileNameExp.eval(state.getSymTable(), state.getHeap());
         var fileTable = state.getFileTable();
 
         if (!file_name.getType().equals(new StringType()))

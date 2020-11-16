@@ -9,19 +9,19 @@ import model.values.IValue;
 import org.jetbrains.annotations.NotNull;
 
 public class VarDeclStmt implements IStmt {
-    private final String id;
-    private final IType type;
+    private final @NotNull String id;
+    private final @NotNull IType type;
 
     public VarDeclStmt(@NotNull String id, @NotNull IType type) {
         this.id = id;
         this.type = type;
     }
 
-    public String getId() {
+    public @NotNull String getId() {
         return id;
     }
 
-    public IType getType() {
+    public @NotNull IType getType() {
         return type;
     }
 

@@ -1,6 +1,7 @@
 package model.expressions;
 
 import model.collections.MyIDictionary;
+import model.collections.MyIHeap;
 import model.exceptions.ExpressionEvaluationException;
 import model.exceptions.InvalidTypeException;
 import model.types.IntType;
@@ -12,11 +13,11 @@ import org.jetbrains.annotations.NotNull;
 import java.util.function.BiFunction;
 
 public class RelationalExp implements IExp {
-    private final IExp left;
-    private final IExp right;
-    private final Operation op;
+    private final @NotNull IExp left;
+    private final @NotNull IExp right;
+    private final @NotNull Operation op;
 
-    public Operation getOp() {
+    public @NotNull Operation getOp() {
         return op;
     }
 
@@ -26,9 +27,9 @@ public class RelationalExp implements IExp {
         /** Smaller or equal, <= */
         smeq((Integer a, Integer b) -> a <= b, "<="),
         /** Equal, == */
-        eq((Integer a, Integer b) -> a == b, "=="),
+        eq(Integer::equals, "=="),
         /** Not equal, != */
-        neq((Integer a, Integer b) -> a != b, "!="),
+        neq((Integer a, Integer b) -> !a.equals(b), "!="),
         /** Greater, > */
         gt((Integer a, Integer b) -> a > b, ">"),
         /** Greater or equal, >= */
@@ -52,19 +53,19 @@ public class RelationalExp implements IExp {
         }
     }
 
-    public RelationalExp(@NotNull IExp left, @NotNull IExp right, Operation op) {
+    public RelationalExp(@NotNull IExp left, @NotNull IExp right, @NotNull Operation op) {
         this.left = left;
         this.right = right;
         this.op = op;
     }
 
     @Override
-    public IValue eval(@NotNull MyIDictionary<String, IValue> tbl) throws ExpressionEvaluationException {
-        var leftVal = left.eval(tbl);
+    public IValue eval(@NotNull MyIDictionary<String, IValue> tbl, @NotNull MyIHeap<Integer, IValue> heap) throws ExpressionEvaluationException {
+        var leftVal = left.eval(tbl, heap);
         if (!leftVal.getType().equals(new IntType()))
             throw new InvalidTypeException("Relational expression operand has other type than " + new IntType() + ": " + leftVal.getType());
 
-        var rightVal = right.eval(tbl);
+        var rightVal = right.eval(tbl, heap);
         if (!rightVal.getType().equals(new IntType()))
             throw new InvalidTypeException("Relational expression operand has other type than " + new IntType() + ": " + rightVal.getType());
 
@@ -81,11 +82,11 @@ public class RelationalExp implements IExp {
         return left + " " + op + " " + right;
     }
 
-    public IExp getLeft() {
+    public @NotNull IExp getLeft() {
         return left;
     }
 
-    public IExp getRight() {
+    public @NotNull IExp getRight() {
         return right;
     }
 }

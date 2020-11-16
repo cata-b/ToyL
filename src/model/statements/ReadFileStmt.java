@@ -15,8 +15,8 @@ import org.jetbrains.annotations.NotNull;
 import java.io.IOException;
 
 public class ReadFileStmt implements IStmt {
-    private final IExp fileNameExp;
-    private final String varName;
+    private final @NotNull IExp fileNameExp;
+    private final @NotNull String varName;
 
     public ReadFileStmt(@NotNull IExp fileNameExp, @NotNull String varName) {
         this.fileNameExp = fileNameExp;
@@ -25,7 +25,7 @@ public class ReadFileStmt implements IStmt {
 
     @Override
     public PrgState execute(@NotNull PrgState state) throws MyException {
-        var fileNameEval = fileNameExp.eval(state.getSymTable());
+        var fileNameEval = fileNameExp.eval(state.getSymTable(), state.getHeap());
         if (!fileNameEval.getType().equals(new StringType()))
             throw new InvalidTypeException("Invalid type for readFile filename: expected string, got " + fileNameEval.getType());
         var fileNameConv = (StringValue)fileNameEval;
@@ -65,11 +65,11 @@ public class ReadFileStmt implements IStmt {
         return "readFile(" + fileNameExp + ", " + varName + ")";
     }
 
-    public IExp getFileNameExp() {
+    public @NotNull IExp getFileNameExp() {
         return fileNameExp;
     }
 
-    public String getVarName() {
+    public @NotNull String getVarName() {
         return varName;
     }
 }

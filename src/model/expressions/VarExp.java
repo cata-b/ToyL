@@ -1,28 +1,25 @@
 package model.expressions;
 
 import model.collections.MyIDictionary;
+import model.collections.MyIHeap;
 import model.exceptions.ExpressionEvaluationException;
 import model.exceptions.InvalidParameterException;
 import model.values.IValue;
 import org.jetbrains.annotations.NotNull;
 
 public class VarExp implements IExp {
-    private String id;
+    private final @NotNull String id;
 
-    public VarExp(String id) {
+    public VarExp(@NotNull String id) {
         this.id = id;
     }
 
-    public String getId() {
+    public @NotNull String getId() {
         return id;
     }
 
-    public void setId(String id) {
-        this.id = id;
-    }
-
     @Override
-    public IValue eval(@NotNull MyIDictionary<String, IValue> tbl) throws ExpressionEvaluationException {
+    public IValue eval(@NotNull MyIDictionary<String, IValue> tbl, @NotNull MyIHeap<Integer, IValue> heap) throws ExpressionEvaluationException {
         try {
             return tbl.get(id);
         } catch (InvalidParameterException e) {

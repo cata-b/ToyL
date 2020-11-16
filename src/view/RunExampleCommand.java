@@ -3,11 +3,11 @@ package view;
 import controller.Controller;
 import model.PrgState;
 import model.collections.MyDictionary;
+import model.collections.MyHeap;
 import model.collections.MyList;
 import model.collections.MyStack;
 import model.exceptions.MyException;
 import model.statements.IStmt;
-import model.values.StringValue;
 import repository.IRepository;
 import repository.Repository;
 
@@ -19,7 +19,7 @@ public class RunExampleCommand extends Command {
     private final IStmt stmt;
 
     private Controller createControllerWithProgram(IStmt program, String logfile) {
-        PrgState state = new PrgState(new MyStack<>(), new MyDictionary<>(), new MyList<>(), new MyDictionary<>(), program);
+        PrgState state = new PrgState(new MyStack<>(), new MyDictionary<>(), new MyList<>(), new MyDictionary<>(), new MyHeap<>(), program);
         IRepository repo = new Repository(logfile);
         repo.addProgram(state);
         return new Controller(repo);

@@ -13,7 +13,7 @@ import org.jetbrains.annotations.NotNull;
 import java.io.IOException;
 
 public class CloseRFileStmt implements IStmt {
-    private final IExp fileNameExp;
+    private final @NotNull IExp fileNameExp;
 
     public CloseRFileStmt(@NotNull IExp fileNameExp) {
         this.fileNameExp = fileNameExp;
@@ -22,7 +22,7 @@ public class CloseRFileStmt implements IStmt {
 
     @Override
     public PrgState execute(@NotNull PrgState state) throws MyException {
-        var fileNameVal = fileNameExp.eval(state.getSymTable());
+        var fileNameVal = fileNameExp.eval(state.getSymTable(), state.getHeap());
         if (!fileNameVal.getType().equals(new StringType()))
             throw new InvalidTypeException("Invalid type in closeRFile: expected string, got " + fileNameVal.getType());
         var fileNameConv = (StringValue)fileNameVal;
@@ -50,7 +50,7 @@ public class CloseRFileStmt implements IStmt {
         return "closeRFile(" + fileNameExp + ")";
     }
 
-    public IExp getFileNameExp() {
+    public @NotNull IExp getFileNameExp() {
         return fileNameExp;
     }
 }

@@ -1,6 +1,7 @@
 package model;
 
 import model.collections.MyIDictionary;
+import model.collections.MyIHeap;
 import model.collections.MyIList;
 import model.collections.MyIStack;
 import model.exceptions.EmptyCollectionException;
@@ -16,14 +17,16 @@ public class PrgState {
     private final MyIDictionary<String, IValue> symTable;
     private final MyIList<IValue> out;
     private final MyIDictionary<StringValue, BufferedReader> fileTable;
+    private final MyIHeap<Integer, IValue> heap;
     private IStmt originalProgram;
 
 
-    public PrgState(@NotNull MyIStack<IStmt> stk, @NotNull MyIDictionary<String, IValue> symTable, @NotNull MyIList<IValue> ot, @NotNull MyIDictionary<StringValue, BufferedReader> fileTable, @NotNull IStmt prg) {
+    public PrgState(@NotNull MyIStack<IStmt> stk, @NotNull MyIDictionary<String, IValue> symTable, @NotNull MyIList<IValue> ot, @NotNull MyIDictionary<StringValue, BufferedReader> fileTable, @NotNull MyIHeap<Integer, IValue> heap, @NotNull IStmt prg) {
         exeStack = stk;
         this.symTable = symTable;
         out = ot;
         this.fileTable = fileTable;
+        this.heap = heap;
         originalProgram = prg.copy();
         stk.push(prg);
     }
@@ -42,7 +45,9 @@ public class PrgState {
                 "Out:" + System.lineSeparator() +
                 out.toString() + System.lineSeparator() +
                 "FileTable:" + System.lineSeparator() +
-                fileTable.toString();
+                fileTable.toString() +
+                "Heap:" + System.lineSeparator() +
+                heap.toString();
     }
 
     public MyIStack<IStmt> getExeStack() {
@@ -69,4 +74,7 @@ public class PrgState {
         this.originalProgram = originalProgram;
     }
 
+    public MyIHeap<Integer, IValue> getHeap() {
+        return heap;
+    }
 }

@@ -1,22 +1,19 @@
 package model.expressions;
 
 import model.collections.MyIDictionary;
+import model.collections.MyIHeap;
 import model.values.IValue;
 import org.jetbrains.annotations.NotNull;
 
 public class ValueExp implements IExp {
-    private IValue val;
+    private final @NotNull IValue val;
 
-    public ValueExp(IValue val) {
-        this.val = val;
-    }
-
-    public void setVal(IValue val) {
+    public ValueExp(@NotNull IValue val) {
         this.val = val;
     }
 
     @Override
-    public IValue eval(@NotNull MyIDictionary<String, IValue> tbl) {
+    public IValue eval(@NotNull MyIDictionary<String, IValue> tbl, @NotNull MyIHeap<Integer, IValue> heap) {
         return val;
     }
 

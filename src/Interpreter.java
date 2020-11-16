@@ -1,9 +1,8 @@
-import model.expressions.ArithExp;
-import model.expressions.RelationalExp;
-import model.expressions.ValueExp;
-import model.expressions.VarExp;
+import com.sun.jdi.Value;
+import model.expressions.*;
 import model.statements.*;
 import model.types.IntType;
+import model.types.RefType;
 import model.types.StringType;
 import model.values.IntValue;
 import model.values.StringValue;
@@ -16,6 +15,8 @@ import java.util.Arrays;
 class Interpreter {
 
     private static IStmt connectStmts(IStmt[] stmts) {
+        if (stmts.length == 0)
+            return new NopStmt();
         if (stmts.length == 1)
             return stmts[0];
         return Arrays.stream(stmts).skip(2).reduce(new CompStmt(stmts[0], stmts[1]), CompStmt::new, CompStmt::new);
@@ -94,6 +95,57 @@ class Interpreter {
         });
         menu.addCommand(new RunExampleCommand("5", ex5.toString(), ex5));
 
+        var ex6 = connectStmts(new IStmt[] {
+                new VarDeclStmt("v", new RefType(new IntType())),
+                new NewStmt("v", new ValueExp(new IntValue(20))),
+                new VarDeclStmt("a", new RefType(new RefType(new IntType()))),
+                new NewStmt("a", new VarExp("v")),
+                new NewStmt("v", new ValueExp(new IntValue(30))),
+                new PrintStmt(new ReadHeapExp(new ReadHeapExp(new VarExp("a"))))
+        });
+        menu.addCommand(new RunExampleCommand("6", ex6.toString(), ex6));
+
+        var ex7 = connectStmts(new IStmt[] {
+                new VarDeclStmt("v", new RefType(new IntType())),
+                new NewStmt("v", new ValueExp(new IntValue(0))),
+                new VarDeclStmt("a", new RefType(new RefType(new IntType()))),
+                new NewStmt("a", new VarExp("v")),
+                new VarDeclStmt("b", new RefType(new RefType(new RefType(new IntType())))),
+                new NewStmt("b", new VarExp("a")),
+                new WriteHeapStmt("v", new ValueExp(new IntValue(20))),
+                new IfStmt(
+                        new LogicExp(
+                                new RelationalExp(new ReadHeapExp(new ReadHeapExp(new ReadHeapExp(new VarExp("b")))), new ReadHeapExp(new ReadHeapExp(new VarExp("a"))), RelationalExp.Operation.eq),
+                                new RelationalExp(new ReadHeapExp(new ReadHeapExp(new VarExp("a"))), new ValueExp(new IntValue(20)), RelationalExp.Operation.eq),
+                                LogicExp.Operation.and
+                        ),
+                        new PrintStmt(new ValueExp(new StringValue("References are ok"))),
+                        new PrintStmt(new ValueExp(new StringValue("References are not ok"))))
+        });
+        menu.addCommand(new RunExampleCommand("7", ex7.toString(), ex7));
+
+        var ex8 = connectStmts(new IStmt[] {
+                new VarDeclStmt("n", new IntType()),
+                new VarDeclStmt("file", new StringType()),
+                new AssignStmt("file", new ValueExp(new StringValue("test.in"))),
+                new OpenRFileStmt(new VarExp("file")),
+                new ReadFileStmt(new VarExp("file"), "n"),
+                new CloseRFileStmt(new VarExp("file")),
+
+                new VarDeclStmt("x", new IntType()),
+                new VarDeclStmt("y", new IntType()),
+                new VarDeclStmt("z", new IntType()),
+                new AssignStmt("x", new ValueExp(new IntValue(1))),
+                new AssignStmt("y", new ValueExp(new IntValue(1))),
+                new WhileStmt(new RelationalExp(new VarExp("y"), new VarExp("n"), RelationalExp.Operation.smeq),
+                        connectStmts(new IStmt[] {
+                                new AssignStmt("z", new ArithExp(ArithExp.Operation.add, new VarExp("x"), new VarExp("y"))),
+                                new AssignStmt("x", new VarExp("y")),
+                                new AssignStmt("y", new VarExp("z"))
+                        })),
+                new PrintStmt(new VarExp("x"))
+        });
+        menu.addCommand(new RunExampleCommand("8", ex8.toString(), ex8));
         menu.show();
     }
 }
