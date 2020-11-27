@@ -1,11 +1,10 @@
 package model.statements;
 
 import model.PrgState;
-import model.exceptions.FileException;
-import model.exceptions.InvalidTypeException;
-import model.exceptions.MyException;
-import model.exceptions.StatementExecutionException;
+import model.collections.MyIDictionary;
+import model.exceptions.*;
 import model.expressions.IExp;
+import model.types.IType;
 import model.types.IntType;
 import model.types.StringType;
 import model.values.IntValue;
@@ -53,6 +52,15 @@ public class ReadFileStmt implements IStmt {
 
         symTbl.put(varName, new IntValue(number));
         return null;
+    }
+
+    @Override
+    public @NotNull MyIDictionary<String, IType> typeCheck(@NotNull MyIDictionary<String, IType> typeEnvironment) throws TypeCheckException {
+        if (!fileNameExp.typeCheck(typeEnvironment).equals(new StringType()))
+            throw new TypeCheckException("Read file statement: file name is not of type " + new StringType());
+        if (!(new IntType()).equals(typeEnvironment.get(varName)))
+            throw new TypeCheckException("Read file statement: variable " + varName + " is not of type " + new IntType());
+        return typeEnvironment;
     }
 
     @Override

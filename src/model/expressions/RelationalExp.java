@@ -4,6 +4,9 @@ import model.collections.MyIDictionary;
 import model.collections.MyIHeap;
 import model.exceptions.ExpressionEvaluationException;
 import model.exceptions.InvalidTypeException;
+import model.exceptions.TypeCheckException;
+import model.types.BoolType;
+import model.types.IType;
 import model.types.IntType;
 import model.values.BoolValue;
 import model.values.IValue;
@@ -75,6 +78,17 @@ public class RelationalExp implements IExp {
     @Override
     public IExp copy() {
         return new RelationalExp(left.copy(), right.copy(), op);
+    }
+
+    @Override
+    public IType typeCheck(@NotNull MyIDictionary<String, IType> typeEnvironment) throws TypeCheckException {
+        var type1 = left.typeCheck(typeEnvironment);
+        if (!type1.equals(new IntType()))
+            throw new TypeCheckException("First operand of relational expression is not an integer");
+        var type2 = right.typeCheck(typeEnvironment);
+        if (!type2.equals(new IntType()))
+            throw new TypeCheckException("Second operand of relational expression is not an integer");
+        return new BoolType();
     }
 
     @Override

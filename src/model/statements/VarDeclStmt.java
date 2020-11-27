@@ -4,6 +4,7 @@ import model.PrgState;
 import model.collections.MyIDictionary;
 import model.exceptions.MyException;
 import model.exceptions.StatementExecutionException;
+import model.exceptions.TypeCheckException;
 import model.types.IType;
 import model.values.IValue;
 import org.jetbrains.annotations.NotNull;
@@ -32,6 +33,12 @@ public class VarDeclStmt implements IStmt {
             throw new StatementExecutionException("Variable already declared: " + id);
         tbl.put(id, type.defaultValue());
         return null;
+    }
+
+    @Override
+    public @NotNull MyIDictionary<String, IType> typeCheck(@NotNull MyIDictionary<String, IType> typeEnvironment) throws TypeCheckException {
+        typeEnvironment.put(id, type);
+        return typeEnvironment;
     }
 
     @Override

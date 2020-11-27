@@ -1,6 +1,5 @@
 package model.collections;
 
-import model.exceptions.InvalidParameterException;
 import org.junit.jupiter.api.*;
 
 import java.util.Map;
@@ -12,7 +11,7 @@ public interface MyIDictionaryTest<T extends MyIDictionary<Object, Object>> {
     Map.Entry<Object, Object>[] getTwoEntries();
 
     @BeforeEach
-    default void SetUp() throws InvalidParameterException {
+    default void SetUp() {
         getDict().put(getTwoEntries()[0].getKey(), getTwoEntries()[0].getValue());
     }
 
@@ -33,10 +32,6 @@ public interface MyIDictionaryTest<T extends MyIDictionary<Object, Object>> {
         assertFalse(result[0]);
     }
 
-    @Test
-    default void TestContains_Throw() {
-        assertThrows(InvalidParameterException.class, () -> getDict().contains(null));
-    }
 
     @Test
     default void TestContainsKey_TrueThenFalse() {
@@ -48,12 +43,6 @@ public interface MyIDictionaryTest<T extends MyIDictionary<Object, Object>> {
     }
 
     @Test
-    default void TestContainsKey_Throw() {
-        assertThrows(InvalidParameterException.class, () -> getDict().containsKey(null));
-    }
-
-
-    @Test
     default void TestGet_ItemThenNull() {
         final Object[] result = new Object[1];
         assertDoesNotThrow(() -> { result[0] = getDict().get(getTwoEntries()[0].getKey()); });
@@ -63,10 +52,6 @@ public interface MyIDictionaryTest<T extends MyIDictionary<Object, Object>> {
         assertSame(result[0], null);
     }
 
-    @Test
-    default void TestGet_Throw() {
-        assertThrows(InvalidParameterException.class, () -> getDict().get(null));
-    }
 
     @Test
     default void TestIsEmpty_FalseThenTrue() {
@@ -84,11 +69,6 @@ public interface MyIDictionaryTest<T extends MyIDictionary<Object, Object>> {
     }
 
     @Test
-    default void TestPut_Throws() {
-        assertThrows(InvalidParameterException.class, () -> getDict().put(null, null));
-    }
-
-    @Test
     default void TestRemove_PairRemovedThenNull() {
         final Object[] result = new Object[1];
         assertDoesNotThrow(() -> result[0] = getDict().remove(getTwoEntries()[0].getKey()));
@@ -96,11 +76,6 @@ public interface MyIDictionaryTest<T extends MyIDictionary<Object, Object>> {
 
         assertDoesNotThrow(() -> result[0] = getDict().remove(getTwoEntries()[1].getKey()));
         assertSame(result[0], null);
-    }
-
-    @Test
-    default void TestRemove_Throws() {
-        assertThrows(InvalidParameterException.class, () -> getDict().remove(null));
     }
 
     @Test

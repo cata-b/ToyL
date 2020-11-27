@@ -1,9 +1,12 @@
 package model.statements;
 
 import model.PrgState;
+import model.collections.MyIDictionary;
 import model.exceptions.MyException;
 import model.exceptions.StatementExecutionException;
+import model.exceptions.TypeCheckException;
 import model.expressions.IExp;
+import model.types.IType;
 import model.types.RefType;
 import model.values.RefValue;
 import org.jetbrains.annotations.NotNull;
@@ -37,6 +40,15 @@ public class WriteHeapStmt implements IStmt {
             throw new StatementExecutionException("Result of the expression has a different type than the type referenced");
         heap.put(valueConv.getAddress(), expResult);
         return null;
+    }
+
+    @Override
+    public @NotNull MyIDictionary<String, IType> typeCheck(@NotNull MyIDictionary<String, IType> typeEnvironment) throws TypeCheckException {
+        var type = typeEnvironment.get(id);
+        var expType = expression.typeCheck(typeEnvironment);
+        if (!(new RefType(expType)).equals(type))
+            throw new TypeCheckException("Write heap statement: parameter \"" + id + "\" is not a reference to " + expType);
+        return typeEnvironment;
     }
 
     @Override

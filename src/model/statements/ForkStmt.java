@@ -6,6 +6,9 @@ import model.collections.MyIDictionary;
 import model.collections.MyIStack;
 import model.collections.MyStack;
 import model.exceptions.MyException;
+import model.exceptions.TypeCheckException;
+import model.types.BoolType;
+import model.types.IType;
 import model.values.IValue;
 import org.jetbrains.annotations.NotNull;
 
@@ -29,6 +32,12 @@ public class ForkStmt implements IStmt {
             .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue)));
 
         return new PrgState(new MyStack<>(), childSymTbl, state.getOut(), state.getFileTable(), state.getHeap(), innerProgram);
+    }
+
+    @Override
+    public @NotNull MyIDictionary<String, IType> typeCheck(@NotNull MyIDictionary<String, IType> typeEnvironment) throws TypeCheckException {
+        innerProgram.typeCheck(typeEnvironment.shallowCopy());
+        return typeEnvironment;
     }
 
     @Override

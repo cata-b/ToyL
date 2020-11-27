@@ -3,7 +3,8 @@ package model.expressions;
 import model.collections.MyIDictionary;
 import model.collections.MyIHeap;
 import model.exceptions.ExpressionEvaluationException;
-import model.exceptions.InvalidParameterException;
+import model.exceptions.TypeCheckException;
+import model.types.IType;
 import model.values.IValue;
 import org.jetbrains.annotations.NotNull;
 
@@ -19,17 +20,18 @@ public class VarExp implements IExp {
     }
 
     @Override
-    public IValue eval(@NotNull MyIDictionary<String, IValue> tbl, @NotNull MyIHeap heap) throws ExpressionEvaluationException {
-        try {
-            return tbl.get(id);
-        } catch (InvalidParameterException e) {
-            throw new ExpressionEvaluationException("Exception occurred when trying to get value for id" + id + ": " + e);
-        }
+    public IValue eval(@NotNull MyIDictionary<String, IValue> tbl, @NotNull MyIHeap heap) {
+        return tbl.get(id);
     }
 
     @Override
     public IExp copy() {
         return new VarExp(id);
+    }
+
+    @Override
+    public IType typeCheck(@NotNull MyIDictionary<String, IType> typeEnvironment) {
+        return typeEnvironment.get(id);
     }
 
     @Override

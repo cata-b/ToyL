@@ -20,6 +20,7 @@ public class RunExampleCommand extends Command {
     private final IStmt stmt;
 
     private Controller createControllerWithProgram(IStmt program, String logfile) throws MyException {
+        program.typeCheck(new MyDictionary<>());
         PrgState state = new PrgState(new MyStack<>(), new MyDictionary<>(), new MyList<>(), new MyDictionary<>(), new MyHeap(), program);
         IRepository repo = new Repository(logfile);
         repo.addProgram(state);

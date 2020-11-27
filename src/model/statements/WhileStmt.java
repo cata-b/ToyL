@@ -1,10 +1,13 @@
 package model.statements;
 
 import model.PrgState;
+import model.collections.MyIDictionary;
 import model.exceptions.MyException;
 import model.exceptions.StatementExecutionException;
+import model.exceptions.TypeCheckException;
 import model.expressions.IExp;
 import model.types.BoolType;
+import model.types.IType;
 import model.values.BoolValue;
 import org.jetbrains.annotations.NotNull;
 
@@ -27,6 +30,14 @@ public class WhileStmt implements IStmt {
             state.getExeStack().push(content);
         }
         return null;
+    }
+
+    @Override
+    public @NotNull MyIDictionary<String, IType> typeCheck(@NotNull MyIDictionary<String, IType> typeEnvironment) throws TypeCheckException {
+        if (!condition.typeCheck(typeEnvironment).equals(new BoolType()))
+            throw new TypeCheckException("While statement: The condition is not a boolean");
+        content.typeCheck(typeEnvironment.shallowCopy());
+        return typeEnvironment;
     }
 
     @Override

@@ -3,7 +3,10 @@ package model.expressions;
 import model.collections.MyIDictionary;
 import model.collections.MyIHeap;
 import model.exceptions.ExpressionEvaluationException;
+import model.exceptions.TypeCheckException;
 import model.types.BoolType;
+import model.types.IType;
+import model.types.IntType;
 import model.values.BoolValue;
 import model.values.IValue;
 import org.jetbrains.annotations.NotNull;
@@ -61,6 +64,17 @@ public class LogicExp implements IExp {
                 e2.copy(),
                 op
         );
+    }
+
+    @Override
+    public IType typeCheck(@NotNull MyIDictionary<String, IType> typeEnvironment) throws TypeCheckException {
+        var type1 = e1.typeCheck(typeEnvironment);
+        if (!type1.equals(new BoolType()))
+            throw new TypeCheckException("First operand of logic expression is not a boolean");
+        var type2 = e2.typeCheck(typeEnvironment);
+        if (!type2.equals(new BoolType()))
+            throw new TypeCheckException("First operand of logic expression is not a boolean");
+        return new BoolType();
     }
 
     @Override

@@ -1,9 +1,12 @@
 package model.statements;
 
 import model.PrgState;
+import model.collections.MyIDictionary;
 import model.exceptions.MyException;
 import model.exceptions.StatementExecutionException;
+import model.exceptions.TypeCheckException;
 import model.expressions.IExp;
+import model.types.IType;
 import model.types.RefType;
 import model.values.RefValue;
 import org.jetbrains.annotations.NotNull;
@@ -38,6 +41,13 @@ public class NewStmt implements IStmt {
         heap.put(address, expResult);
         symTable.put(id, new RefValue(address, refValueConv.getLocationType()));
         return null;
+    }
+
+    @Override
+    public @NotNull MyIDictionary<String, IType> typeCheck(@NotNull MyIDictionary<String, IType> typeEnvironment) throws TypeCheckException {
+        if (!(new RefType(value.typeCheck(typeEnvironment))).equals(typeEnvironment.get(id)))
+            throw new TypeCheckException("New statement: right hand side and left hand side have different types");
+        return typeEnvironment;
     }
 
     @Override

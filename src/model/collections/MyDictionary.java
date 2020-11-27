@@ -1,11 +1,9 @@
 package model.collections;
 
-import model.exceptions.InvalidParameterException;
+import org.jetbrains.annotations.NotNull;
 
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 public class MyDictionary<K, V> implements MyIDictionary<K, V> {
@@ -17,23 +15,17 @@ public class MyDictionary<K, V> implements MyIDictionary<K, V> {
     }
 
     @Override
-    public boolean contains(V value) throws InvalidParameterException {
-        if (value == null)
-            throw new InvalidParameterException("Given value was null");
+    public boolean contains(@NotNull V value) {
         return hashmap.containsValue(value);
     }
 
     @Override
-    public boolean containsKey(K key) throws InvalidParameterException {
-        if (key == null)
-            throw new InvalidParameterException("Given key was null");
+    public boolean containsKey(@NotNull K key) {
         return hashmap.containsKey(key);
     }
 
     @Override
-    public V get(K key) throws InvalidParameterException {
-        if (key == null)
-            throw new InvalidParameterException("Given key was null");
+    public V get(@NotNull K key) {
         return hashmap.get(key);
     }
 
@@ -43,16 +35,12 @@ public class MyDictionary<K, V> implements MyIDictionary<K, V> {
     }
 
     @Override
-    public synchronized V put(K key, V value) throws InvalidParameterException {
-        if (key == null || value == null)
-            throw new InvalidParameterException("Given key/value was null");
+    public synchronized V put(@NotNull K key, @NotNull V value) {
         return hashmap.put(key, value);
     }
 
     @Override
-    public synchronized V remove(K key) throws InvalidParameterException {
-        if (key == null)
-            throw new InvalidParameterException("Given key was null");
+    public synchronized V remove(@NotNull K key) {
         return hashmap.remove(key);
     }
 
@@ -72,6 +60,13 @@ public class MyDictionary<K, V> implements MyIDictionary<K, V> {
         hashmap = new HashMap<>();
         hashmap.putAll(content);
         return old_map;
+    }
+
+    @Override
+    public MyIDictionary<K, V> shallowCopy() {
+        MyDictionary<K, V> copy = new MyDictionary<>();
+        copy.setContent(getContent());
+        return copy;
     }
 
     @Override

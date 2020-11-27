@@ -3,6 +3,8 @@ package model.expressions;
 import model.collections.MyIDictionary;
 import model.collections.MyIHeap;
 import model.exceptions.ExpressionEvaluationException;
+import model.exceptions.TypeCheckException;
+import model.types.IType;
 import model.values.IValue;
 import org.jetbrains.annotations.NotNull;
 
@@ -20,4 +22,6 @@ public interface IExp {
      * @return a deep copy of the current instance.
      */
     IExp copy();
+
+    IType typeCheck(@NotNull MyIDictionary<String, IType> typeEnvironment) throws TypeCheckException;
 }

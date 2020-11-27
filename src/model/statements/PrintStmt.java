@@ -1,8 +1,11 @@
 package model.statements;
 
 import model.PrgState;
+import model.collections.MyIDictionary;
 import model.exceptions.StatementExecutionException;
+import model.exceptions.TypeCheckException;
 import model.expressions.IExp;
+import model.types.IType;
 import org.jetbrains.annotations.NotNull;
 
 public class PrintStmt implements IStmt {
@@ -20,6 +23,12 @@ public class PrintStmt implements IStmt {
     public PrgState execute(@NotNull PrgState state) throws StatementExecutionException {
         state.getOut().add(exp.eval(state.getSymTable(), state.getHeap()));
         return null;
+    }
+
+    @Override
+    public @NotNull MyIDictionary<String, IType> typeCheck(@NotNull MyIDictionary<String, IType> typeEnvironment) throws TypeCheckException {
+        exp.typeCheck(typeEnvironment);
+        return typeEnvironment;
     }
 
     @Override

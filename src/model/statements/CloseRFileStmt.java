@@ -1,11 +1,10 @@
 package model.statements;
 
 import model.PrgState;
-import model.exceptions.FileException;
-import model.exceptions.InvalidTypeException;
-import model.exceptions.MyException;
-import model.exceptions.StatementExecutionException;
+import model.collections.MyIDictionary;
+import model.exceptions.*;
 import model.expressions.IExp;
+import model.types.IType;
 import model.types.StringType;
 import model.values.StringValue;
 import org.jetbrains.annotations.NotNull;
@@ -38,6 +37,13 @@ public class CloseRFileStmt implements IStmt {
         }
         fileTbl.remove(fileNameConv);
         return null;
+    }
+
+    @Override
+    public @NotNull MyIDictionary<String, IType> typeCheck(@NotNull MyIDictionary<String, IType> typeEnvironment) throws TypeCheckException {
+        if (!fileNameExp.typeCheck(typeEnvironment).equals(new StringType()))
+            throw new TypeCheckException("Close read file statement: file name is not of type " + new StringType());
+        return typeEnvironment;
     }
 
     @Override

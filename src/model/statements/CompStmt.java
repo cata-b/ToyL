@@ -1,9 +1,10 @@
 package model.statements;
 
 import model.PrgState;
+import model.collections.MyIDictionary;
 import model.collections.MyIStack;
-import model.exceptions.MyException;
-import model.exceptions.StatementExecutionException;
+import model.exceptions.TypeCheckException;
+import model.types.IType;
 import org.jetbrains.annotations.NotNull;
 
 public class CompStmt implements IStmt {
@@ -29,6 +30,11 @@ public class CompStmt implements IStmt {
         stk.push(second);
         stk.push(first);
         return null;
+    }
+
+    @Override
+    public @NotNull MyIDictionary<String, IType> typeCheck(@NotNull MyIDictionary<String, IType> typeEnvironment) throws TypeCheckException {
+        return second.typeCheck(first.typeCheck(typeEnvironment));
     }
 
     @Override

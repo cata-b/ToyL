@@ -1,6 +1,5 @@
 package model.collections;
 
-import model.exceptions.InvalidParameterException;
 import org.junit.jupiter.api.Test;
 
 import java.lang.reflect.Array;
@@ -33,7 +32,7 @@ public class MyDictionaryTest implements MyIDictionaryTest<MyDictionary<Object, 
     }
 
     @Test
-    public void TestToString_HashtableToString() throws InvalidParameterException {
+    public void TestToString_HashtableToString() {
         Hashtable<Object, Object> testExpectedResultSource = new Hashtable<>();
         testExpectedResultSource.put(getTwoEntries()[0].getKey(), getTwoEntries()[0].getValue());
         testExpectedResultSource.put(getTwoEntries()[1].getKey(), getTwoEntries()[1].getValue());

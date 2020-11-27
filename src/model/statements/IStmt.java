@@ -1,7 +1,10 @@
 package model.statements;
 
 import model.PrgState;
+import model.collections.MyIDictionary;
 import model.exceptions.MyException;
+import model.exceptions.TypeCheckException;
+import model.types.IType;
 import org.jetbrains.annotations.NotNull;
 
 public interface IStmt {
@@ -12,5 +15,6 @@ public interface IStmt {
      * @throws MyException for various reasons, depending on the statement
      */
     PrgState execute(@NotNull PrgState state) throws MyException;
+    @NotNull MyIDictionary<String, IType> typeCheck(@NotNull MyIDictionary<String, IType> typeEnvironment) throws TypeCheckException;
     IStmt copy();
 }

@@ -26,4 +26,9 @@ public interface MyIStack<T> {
      * @return True if the stack is empty
      */
     boolean empty();
+
+    /**
+     * Empties the stack
+     */
+    void clear();
 }

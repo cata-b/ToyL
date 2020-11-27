@@ -1,11 +1,8 @@
 package model.collections;
 
-import model.exceptions.EmptyCollectionException;
-import model.exceptions.InvalidParameterException;
+import org.jetbrains.annotations.NotNull;
 
-import java.util.Collection;
 import java.util.Map;
-import java.util.Set;
 
 public interface MyIDictionary<K, V> {
 
@@ -17,23 +14,20 @@ public interface MyIDictionary<K, V> {
     /**
      * @param value the value to look for
      * @return True if the value is a value in the dictionary
-     * @throws InvalidParameterException when value is null
      */
-    boolean contains(V value) throws InvalidParameterException;
+    boolean contains(@NotNull V value);
 
     /**
      * @param key The key to look for
      * @return True if the key is in the dictionary
-     * @throws InvalidParameterException when the key is null
      */
-    boolean containsKey(K key) throws InvalidParameterException;
+    boolean containsKey(@NotNull K key);
 
     /**
      * @param key the key to get the value associated with
      * @return the value associated with the key, or null if there is no value mapped to the key
-     * @throws InvalidParameterException when the key is null
      */
-    V get(K key) throws InvalidParameterException;
+    V get(@NotNull K key);
 
     /**
      * @return True if there are no entries in the dictionary
@@ -45,17 +39,15 @@ public interface MyIDictionary<K, V> {
      * @param key the key part of the new entry
      * @param value the value part of the new entry
      * @return the old value, if a value was already mapped to this key
-     * @throws InvalidParameterException if either the key or the value is null
      */
-    V put (K key, V value) throws InvalidParameterException;
+    V put (@NotNull K key, @NotNull V value);
 
     /**
      * Removes an entry from the dictionary if present
      * @param key the key of the entry to remove
      * @return the value previously associated with the key or null if it didn't exist
-     * @throws InvalidParameterException if the key is null
      */
-    V remove(K key) throws InvalidParameterException;
+    V remove(@NotNull K key);
 
     /**
      * @return the number of entries in the dictionary
@@ -73,4 +65,6 @@ public interface MyIDictionary<K, V> {
      * @return the old content
      */
     Map<K, V> setContent(Map<K, V> content);
+
+    MyIDictionary<K, V> shallowCopy();
 }

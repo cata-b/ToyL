@@ -5,6 +5,7 @@ import model.collections.*;
 import model.exceptions.InvalidTypeException;
 import model.exceptions.MyException;
 import model.exceptions.StatementExecutionException;
+import model.exceptions.TypeCheckException;
 import model.expressions.IExp;
 import model.values.IValue;
 import model.types.*;
@@ -42,6 +43,13 @@ public class AssignStmt implements IStmt {
 
         symTbl.put(id, val);
         return null;
+    }
+
+    @Override
+    public @NotNull MyIDictionary<String, IType> typeCheck(@NotNull MyIDictionary<String, IType> typeEnvironment) throws TypeCheckException {
+        if (!exp.typeCheck(typeEnvironment).equals(typeEnvironment.get(id)))
+            throw new TypeCheckException("Assignment statement: right hand side and left hand side have different types");
+        return typeEnvironment;
     }
 
     @Override

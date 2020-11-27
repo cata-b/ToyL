@@ -2,6 +2,7 @@ package model.expressions;
 
 import model.collections.MyIDictionary;
 import model.collections.MyIHeap;
+import model.types.IType;
 import model.values.IValue;
 import org.jetbrains.annotations.NotNull;
 
@@ -20,6 +21,11 @@ public class ValueExp implements IExp {
     @Override
     public IExp copy() {
         return new ValueExp(val.copy());
+    }
+
+    @Override
+    public IType typeCheck(@NotNull MyIDictionary<String, IType> typeEnvironment) {
+        return val.getType();
     }
 
     @Override

@@ -45,7 +45,13 @@ public class PrgState {
     public PrgState oneStep() throws MyException {
         if (exeStack.empty())
             throw new ProgramFinishedException("Program is already finished");
-        return exeStack.pop().execute(this);
+        try {
+            return exeStack.pop().execute(this);
+        } catch (MyException e) {
+            exeStack.clear(); // stop execution
+            throw e;
+        }
+
     }
 
     @Override

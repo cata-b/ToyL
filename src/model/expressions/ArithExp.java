@@ -4,6 +4,8 @@ import model.collections.MyIDictionary;
 import model.collections.MyIHeap;
 import model.exceptions.DivisionByZeroException;
 import model.exceptions.ExpressionEvaluationException;
+import model.exceptions.TypeCheckException;
+import model.types.IType;
 import model.types.IntType;
 import model.values.IValue;
 import model.values.IntValue;
@@ -79,6 +81,17 @@ public class ArithExp implements IExp {
                 e1.copy(),
                 e2.copy()
         );
+    }
+
+    @Override
+    public IType typeCheck(@NotNull MyIDictionary<String, IType> typeEnvironment) throws TypeCheckException {
+        var type1 = e1.typeCheck(typeEnvironment);
+        if (!type1.equals(new IntType()))
+            throw new TypeCheckException("First operand of arithmetic expression is not an integer");
+        var type2 = e2.typeCheck(typeEnvironment);
+        if (!type2.equals(new IntType()))
+            throw new TypeCheckException("Second operand of arithmetic expression is not an integer");
+        return new IntType();
     }
 
     @Override

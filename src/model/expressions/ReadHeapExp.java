@@ -3,8 +3,9 @@ package model.expressions;
 import model.collections.MyIDictionary;
 import model.collections.MyIHeap;
 import model.exceptions.ExpressionEvaluationException;
-import model.exceptions.InvalidParameterException;
 import model.exceptions.InvalidTypeException;
+import model.exceptions.TypeCheckException;
+import model.types.IType;
 import model.types.RefType;
 import model.values.IValue;
 import model.values.RefValue;
@@ -25,13 +26,9 @@ public class ReadHeapExp implements IExp {
         var expResultConv = (RefValue)expResult;
 
         var dataAddress = expResultConv.getAddress();
-        try {
-            if (!heap.containsKey(dataAddress))
-                throw new ExpressionEvaluationException("Heap address does not exist");
-            return heap.get(dataAddress);
-        }
-        catch (InvalidParameterException ignored) {}
-        return null;
+        if (!heap.containsKey(dataAddress))
+            throw new ExpressionEvaluationException("Heap address does not exist");
+        return heap.get(dataAddress);
     }
 
     @Override
@@ -42,6 +39,14 @@ public class ReadHeapExp implements IExp {
     @Override
     public IExp copy() {
         return new ReadHeapExp(refExp.copy());
+    }
+
+    @Override
+    public IType typeCheck(@NotNull MyIDictionary<String, IType> typeEnvironment) throws TypeCheckException {
+        var type = refExp.typeCheck(typeEnvironment);
+        if (!(type instanceof RefType))
+            throw new TypeCheckException("Read heap expression: argument is not a reference type");
+        return ((RefType)type).getInner();
     }
 
     public @NotNull IExp getRefExp() {

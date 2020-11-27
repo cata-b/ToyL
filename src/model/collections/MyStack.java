@@ -36,6 +36,11 @@ public class MyStack<T> implements MyIStack<T> {
     }
 
     @Override
+    public void clear() {
+        stack.clear();
+    }
+
+    @Override
     public String toString() {
         StringBuilder result = new StringBuilder();
         stack.forEach(item -> result
