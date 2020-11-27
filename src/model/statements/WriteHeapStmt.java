@@ -36,7 +36,7 @@ public class WriteHeapStmt implements IStmt {
         if (!expResult.getType().equals(valueConv.getLocationType()))
             throw new StatementExecutionException("Result of the expression has a different type than the type referenced");
         heap.put(valueConv.getAddress(), expResult);
-        return state;
+        return null;
     }
 
     @Override

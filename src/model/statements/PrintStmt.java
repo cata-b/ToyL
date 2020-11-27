@@ -19,7 +19,7 @@ public class PrintStmt implements IStmt {
     @Override
     public PrgState execute(@NotNull PrgState state) throws StatementExecutionException {
         state.getOut().add(exp.eval(state.getSymTable(), state.getHeap()));
-        return state;
+        return null;
     }
 
     @Override

@@ -18,7 +18,7 @@ public class ReadHeapExp implements IExp {
     }
 
     @Override
-    public IValue eval(@NotNull MyIDictionary<String, IValue> tbl, @NotNull MyIHeap<Integer, IValue> heap) throws ExpressionEvaluationException {
+    public IValue eval(@NotNull MyIDictionary<String, IValue> tbl, @NotNull MyIHeap heap) throws ExpressionEvaluationException {
         var expResult = refExp.eval(tbl, heap);
         if (!(expResult.getType() instanceof RefType))
             throw new InvalidTypeException("Expression used in heap reading does not evaluate to RefValue");

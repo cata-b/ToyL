@@ -13,7 +13,7 @@ public class ValueExp implements IExp {
     }
 
     @Override
-    public IValue eval(@NotNull MyIDictionary<String, IValue> tbl, @NotNull MyIHeap<Integer, IValue> heap) {
+    public IValue eval(@NotNull MyIDictionary<String, IValue> tbl, @NotNull MyIHeap heap) {
         return val;
     }
 

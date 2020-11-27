@@ -12,7 +12,7 @@ public class MyDictionary<K, V> implements MyIDictionary<K, V> {
     private HashMap<K, V> hashmap = new HashMap<>();
 
     @Override
-    public void clear() {
+    public synchronized void clear() {
         hashmap.clear();
     }
 
@@ -43,14 +43,14 @@ public class MyDictionary<K, V> implements MyIDictionary<K, V> {
     }
 
     @Override
-    public V put(K key, V value) throws InvalidParameterException {
+    public synchronized V put(K key, V value) throws InvalidParameterException {
         if (key == null || value == null)
             throw new InvalidParameterException("Given key/value was null");
         return hashmap.put(key, value);
     }
 
     @Override
-    public V remove(K key) throws InvalidParameterException {
+    public synchronized V remove(K key) throws InvalidParameterException {
         if (key == null)
             throw new InvalidParameterException("Given key was null");
         return hashmap.remove(key);
@@ -67,7 +67,7 @@ public class MyDictionary<K, V> implements MyIDictionary<K, V> {
     }
 
     @Override
-    public Map<K, V> setContent(Map<K, V> content) {
+    public synchronized Map<K, V> setContent(Map<K, V> content) {
         var old_map = hashmap;
         hashmap = new HashMap<>();
         hashmap.putAll(content);

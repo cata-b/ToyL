@@ -37,7 +37,7 @@ public class CloseRFileStmt implements IStmt {
             throw new FileException("Exception occurred while trying to close " + fileNameConv + ": " + e);
         }
         fileTbl.remove(fileNameConv);
-        return state;
+        return null;
     }
 
     @Override

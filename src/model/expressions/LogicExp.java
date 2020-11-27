@@ -44,7 +44,7 @@ public class LogicExp implements IExp {
     }
 
     @Override
-    public IValue eval(@NotNull MyIDictionary<String, IValue> tbl, @NotNull MyIHeap<Integer, IValue> heap) throws ExpressionEvaluationException {
+    public IValue eval(@NotNull MyIDictionary<String, IValue> tbl, @NotNull MyIHeap heap) throws ExpressionEvaluationException {
         IValue val1 = e1.eval(tbl, heap);
         if (!val1.getType().equals(new BoolType()))
             throw new ExpressionEvaluationException("Invalid logic expression operand type: " + val1.getType());

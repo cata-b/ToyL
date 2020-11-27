@@ -60,7 +60,7 @@ public class RelationalExp implements IExp {
     }
 
     @Override
-    public IValue eval(@NotNull MyIDictionary<String, IValue> tbl, @NotNull MyIHeap<Integer, IValue> heap) throws ExpressionEvaluationException {
+    public IValue eval(@NotNull MyIDictionary<String, IValue> tbl, @NotNull MyIHeap heap) throws ExpressionEvaluationException {
         var leftVal = left.eval(tbl, heap);
         if (!leftVal.getType().equals(new IntType()))
             throw new InvalidTypeException("Relational expression operand has other type than " + new IntType() + ": " + leftVal.getType());

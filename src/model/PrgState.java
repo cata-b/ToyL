@@ -5,23 +5,34 @@ import model.collections.MyIHeap;
 import model.collections.MyIList;
 import model.collections.MyIStack;
 import model.exceptions.EmptyCollectionException;
+import model.exceptions.MyException;
+import model.exceptions.ProgramFinishedException;
 import model.statements.IStmt;
 import model.values.IValue;
 import model.values.StringValue;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.BufferedReader;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class PrgState {
-    private final MyIStack<IStmt> exeStack;
-    private final MyIDictionary<String, IValue> symTable;
-    private final MyIList<IValue> out;
-    private final MyIDictionary<StringValue, BufferedReader> fileTable;
-    private final MyIHeap<Integer, IValue> heap;
-    private IStmt originalProgram;
+
+    private static final AtomicInteger programCount = new AtomicInteger(0);
+    private static synchronized int getNewID() {
+        return programCount.addAndGet(1);
+    }
+
+    private final int id;
+    private final @NotNull MyIStack<IStmt> exeStack;
+    private final @NotNull MyIDictionary<String, IValue> symTable;
+    private final @NotNull MyIList<IValue> out;
+    private final @NotNull MyIDictionary<StringValue, BufferedReader> fileTable;
+    private final @NotNull MyIHeap heap;
+    private @NotNull IStmt originalProgram;
 
 
-    public PrgState(@NotNull MyIStack<IStmt> stk, @NotNull MyIDictionary<String, IValue> symTable, @NotNull MyIList<IValue> ot, @NotNull MyIDictionary<StringValue, BufferedReader> fileTable, @NotNull MyIHeap<Integer, IValue> heap, @NotNull IStmt prg) {
+    public PrgState(@NotNull MyIStack<IStmt> stk, @NotNull MyIDictionary<String, IValue> symTable, @NotNull MyIList<IValue> ot, @NotNull MyIDictionary<StringValue, BufferedReader> fileTable, @NotNull MyIHeap heap, @NotNull IStmt prg) {
+        id = getNewID();
         exeStack = stk;
         this.symTable = symTable;
         out = ot;
@@ -31,6 +42,12 @@ public class PrgState {
         stk.push(prg);
     }
 
+    public PrgState oneStep() throws MyException {
+        if (exeStack.empty())
+            throw new ProgramFinishedException("Program is already finished");
+        return exeStack.pop().execute(this);
+    }
+
     @Override
     public String toString() {
         IStmt current = null;
@@ -38,7 +55,8 @@ public class PrgState {
             current = exeStack.peek();
         }
         catch (EmptyCollectionException ignored) {}
-        return "ExeStack:" + System.lineSeparator() +
+        return "ID: " + id + System.lineSeparator() +
+                "ExeStack:" + System.lineSeparator() +
                 exeStack.toString() + System.lineSeparator() +
                 "SymTable:" + System.lineSeparator() +
                 symTable.toString() + System.lineSeparator() +
@@ -50,31 +68,39 @@ public class PrgState {
                 heap.toString();
     }
 
-    public MyIStack<IStmt> getExeStack() {
+    public Boolean isNotCompleted() {
+        return !exeStack.empty();
+    }
+
+    public @NotNull MyIStack<IStmt> getExeStack() {
         return exeStack;
     }
 
-    public MyIDictionary<String, IValue> getSymTable() {
+    public @NotNull MyIDictionary<String, IValue> getSymTable() {
         return symTable;
     }
 
-    public MyIList<IValue> getOut() {
+    public @NotNull MyIList<IValue> getOut() {
         return out;
     }
 
-    public MyIDictionary<StringValue, BufferedReader> getFileTable() {
+    public @NotNull MyIDictionary<StringValue, BufferedReader> getFileTable() {
         return fileTable;
     }
 
-    public IStmt getOriginalProgram() {
+    public @NotNull IStmt getOriginalProgram() {
         return originalProgram;
     }
 
-    public void setOriginalProgram(IStmt originalProgram) {
+    public void setOriginalProgram(@NotNull IStmt originalProgram) {
         this.originalProgram = originalProgram;
     }
 
-    public MyIHeap<Integer, IValue> getHeap() {
+    public @NotNull MyIHeap getHeap() {
         return heap;
+    }
+
+    public int getId() {
+        return id;
     }
 }

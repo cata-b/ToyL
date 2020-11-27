@@ -57,7 +57,7 @@ public class ArithExp implements IExp {
     }
 
     @Override
-    public IValue eval(@NotNull MyIDictionary<String, IValue> tbl, @NotNull MyIHeap<Integer, IValue> heap) throws ExpressionEvaluationException {
+    public IValue eval(@NotNull MyIDictionary<String, IValue> tbl, @NotNull MyIHeap heap) throws ExpressionEvaluationException {
         IValue v1, v2;
         v1 = e1.eval(tbl, heap);
         if (!v1.getType().equals(new IntType()))

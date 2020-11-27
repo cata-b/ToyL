@@ -1,9 +1,13 @@
 package controller;
 
 import model.PrgState;
+import model.collections.MyIList;
 import model.exceptions.MyException;
+
+import java.util.List;
 
 public interface IController {
     void setProgram(PrgState state);
-    String allStep(boolean printStates) throws MyException;
+    List<PrgState> removeCompletedPrg(List<PrgState> inPrgList);
+    void allStep();
 }

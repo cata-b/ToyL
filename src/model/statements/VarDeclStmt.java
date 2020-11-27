@@ -31,7 +31,7 @@ public class VarDeclStmt implements IStmt {
         if (tbl.containsKey(id))
             throw new StatementExecutionException("Variable already declared: " + id);
         tbl.put(id, type.defaultValue());
-        return state;
+        return null;
     }
 
     @Override

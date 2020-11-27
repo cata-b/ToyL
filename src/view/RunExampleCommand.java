@@ -6,6 +6,7 @@ import model.collections.MyDictionary;
 import model.collections.MyHeap;
 import model.collections.MyList;
 import model.collections.MyStack;
+import model.exceptions.FileException;
 import model.exceptions.MyException;
 import model.statements.IStmt;
 import repository.IRepository;
@@ -18,8 +19,8 @@ import java.io.InputStreamReader;
 public class RunExampleCommand extends Command {
     private final IStmt stmt;
 
-    private Controller createControllerWithProgram(IStmt program, String logfile) {
-        PrgState state = new PrgState(new MyStack<>(), new MyDictionary<>(), new MyList<>(), new MyDictionary<>(), new MyHeap<>(), program);
+    private Controller createControllerWithProgram(IStmt program, String logfile) throws MyException {
+        PrgState state = new PrgState(new MyStack<>(), new MyDictionary<>(), new MyList<>(), new MyDictionary<>(), new MyHeap(), program);
         IRepository repo = new Repository(logfile);
         repo.addProgram(state);
         return new Controller(repo);
@@ -41,11 +42,13 @@ public class RunExampleCommand extends Command {
             System.out.println("Error reading logfile name. Try to run the command again.");
             return;
         }
-        var ctr = createControllerWithProgram(stmt.copy(), logfile);
+        Controller ctr;
         try {
-            ctr.allStep(false);
+            ctr = createControllerWithProgram(stmt.copy(), logfile);
         } catch (MyException e) {
-            System.out.println("Exception occurred during execution: " + e);
+            System.out.println("Exception has occurred when trying to begin execution: " + e.getMessage());
+            return;
         }
+        ctr.allStep();
     }
 }

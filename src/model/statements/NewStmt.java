@@ -37,7 +37,7 @@ public class NewStmt implements IStmt {
         var address = heap.getNewAddress();
         heap.put(address, expResult);
         symTable.put(id, new RefValue(address, refValueConv.getLocationType()));
-        return state;
+        return null;
     }
 
     @Override

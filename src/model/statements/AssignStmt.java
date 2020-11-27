@@ -41,7 +41,7 @@ public class AssignStmt implements IStmt {
             throw new InvalidTypeException("Declared type of variable " + id + " and type of the assigned expression do not match");
 
         symTbl.put(id, val);
-        return state;
+        return null;
     }
 
     @Override

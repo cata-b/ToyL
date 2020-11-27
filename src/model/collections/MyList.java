@@ -4,9 +4,10 @@ import model.exceptions.EmptyCollectionException;
 import model.exceptions.IndexOutOfBoundsException;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class MyList<T> implements MyIList<T> {
-    private final ArrayList<T> list;
+    private ArrayList<T> list;
 
     private void validateIndex(int index, int max) throws IndexOutOfBoundsException {
         if (index < 0 || index >= max)
@@ -18,24 +19,24 @@ public class MyList<T> implements MyIList<T> {
     }
 
     @Override
-    public void add(T element) {
+    public synchronized void add(T element) {
         list.add(element);
     }
 
     @Override
-    public void add(int index, T element) throws IndexOutOfBoundsException {
+    public synchronized void add(int index, T element) throws IndexOutOfBoundsException {
         validateIndex(index, list.size() + 1);
         list.add(index, element);
     }
 
     @Override
-    public T remove(int index) throws IndexOutOfBoundsException {
+    public synchronized T remove(int index) throws IndexOutOfBoundsException {
         validateIndex(index, list.size());
         return list.remove(index);
     }
 
     @Override
-    public boolean remove(T element) {
+    public synchronized boolean remove(T element) {
         return list.remove(element);
     }
 
@@ -71,7 +72,7 @@ public class MyList<T> implements MyIList<T> {
     }
 
     @Override
-    public T set(int index, T element) throws IndexOutOfBoundsException {
+    public synchronized T set(int index, T element) throws IndexOutOfBoundsException {
         validateIndex(index, list.size());
         return list.set(index, element);
     }
@@ -79,6 +80,16 @@ public class MyList<T> implements MyIList<T> {
     @Override
     public void clear() {
         list.clear();
+    }
+
+    @Override
+    public List<T> getContent() {
+        return list;
+    }
+
+    @Override
+    public void setContent(List<T> content) {
+        list = new ArrayList<T>(content);
     }
 
     @Override

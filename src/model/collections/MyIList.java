@@ -3,6 +3,8 @@ package model.collections;
 import model.exceptions.EmptyCollectionException;
 import model.exceptions.IndexOutOfBoundsException;
 
+import java.util.List;
+
 public interface MyIList<T> {
     /**
      * Adds an element to the end of the list.
@@ -85,4 +87,7 @@ public interface MyIList<T> {
      * Removes all the elements from the list
      */
     void clear();
+
+    List<T> getContent();
+    void setContent(List<T> content);
 }

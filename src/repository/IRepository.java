@@ -1,12 +1,14 @@
 package repository;
 
 import model.PrgState;
-import model.exceptions.EmptyCollectionException;
-import model.exceptions.MyException;
+
+import java.util.List;
 
 public interface IRepository {
-    PrgState getCrtPrg() throws MyException;
-    void logPrgStateExec() throws MyException;
+    List<PrgState> getPrgList();
+    void setPrgList(List<PrgState> list);
+    void logPrgStateExec(PrgState state);
+    void logPrgError(String message);
     void addProgram(PrgState state);
     void clear();
 }

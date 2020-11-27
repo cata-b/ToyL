@@ -47,7 +47,7 @@ public class OpenRFileStmt implements IStmt {
         }
 
         fileTable.put(fileNameConv, fileReader);
-        return state;
+        return null;
     }
 
     @Override

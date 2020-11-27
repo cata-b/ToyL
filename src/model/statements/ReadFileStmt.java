@@ -52,7 +52,7 @@ public class ReadFileStmt implements IStmt {
         }
 
         symTbl.put(varName, new IntValue(number));
-        return state;
+        return null;
     }
 
     @Override

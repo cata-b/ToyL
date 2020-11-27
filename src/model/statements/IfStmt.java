@@ -42,13 +42,14 @@ public class IfStmt implements IStmt {
         if (((BoolValue)cond).getVal())
             stk.push(thenS);
         else stk.push(elseS);
-        return state;
+        return null;
     }
 
     @Override
     public IStmt copy() {
         return new IfStmt(exp.copy(), thenS.copy(), elseS.copy());
     }
+
     @Override
     public String toString(){
         return "(if (" + exp.toString() + ") then(" + thenS.toString() + ") else(" + elseS.toString() + "))";

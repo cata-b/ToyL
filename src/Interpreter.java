@@ -10,7 +10,10 @@ import view.ExitCommand;
 import view.RunExampleCommand;
 import view.TextMenu;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 
 class Interpreter {
 
@@ -19,7 +22,14 @@ class Interpreter {
             return new NopStmt();
         if (stmts.length == 1)
             return stmts[0];
-        return Arrays.stream(stmts).skip(2).reduce(new CompStmt(stmts[0], stmts[1]), CompStmt::new, CompStmt::new);
+        List<IStmt> list = Arrays.asList(stmts);
+        Collections.reverse(list);
+        return list.stream()
+                .skip(2)
+                .reduce(
+                        new CompStmt(stmts[1], stmts[0]),
+                        (a, b) -> new CompStmt(b, a)
+                );
     }
 
     public static void main(String[] args) {
@@ -95,7 +105,7 @@ class Interpreter {
         });
         menu.addCommand(new RunExampleCommand("5", ex5.toString(), ex5));
 
-        var ex6 = connectStmts(new IStmt[] {
+        var ex6 = connectStmts(new IStmt[]{
                 new VarDeclStmt("v", new RefType(new IntType())),
                 new NewStmt("v", new ValueExp(new IntValue(20))),
                 new VarDeclStmt("a", new RefType(new RefType(new IntType()))),
@@ -105,7 +115,7 @@ class Interpreter {
         });
         menu.addCommand(new RunExampleCommand("6", ex6.toString(), ex6));
 
-        var ex7 = connectStmts(new IStmt[] {
+        var ex7 = connectStmts(new IStmt[]{
                 new VarDeclStmt("v", new RefType(new IntType())),
                 new NewStmt("v", new ValueExp(new IntValue(0))),
                 new VarDeclStmt("a", new RefType(new RefType(new IntType()))),
@@ -124,7 +134,7 @@ class Interpreter {
         });
         menu.addCommand(new RunExampleCommand("7", ex7.toString(), ex7));
 
-        var ex8 = connectStmts(new IStmt[] {
+        var ex8 = connectStmts(new IStmt[]{
                 new VarDeclStmt("n", new IntType()),
                 new VarDeclStmt("file", new StringType()),
                 new AssignStmt("file", new ValueExp(new StringValue("test.in"))),
@@ -138,7 +148,7 @@ class Interpreter {
                 new AssignStmt("x", new ValueExp(new IntValue(1))),
                 new AssignStmt("y", new ValueExp(new IntValue(1))),
                 new WhileStmt(new RelationalExp(new VarExp("y"), new VarExp("n"), RelationalExp.Operation.smeq),
-                        connectStmts(new IStmt[] {
+                        connectStmts(new IStmt[]{
                                 new AssignStmt("z", new ArithExp(ArithExp.Operation.add, new VarExp("x"), new VarExp("y"))),
                                 new AssignStmt("x", new VarExp("y")),
                                 new AssignStmt("y", new VarExp("z"))
@@ -146,6 +156,25 @@ class Interpreter {
                 new PrintStmt(new VarExp("x"))
         });
         menu.addCommand(new RunExampleCommand("8", ex8.toString(), ex8));
+
+        var ex9 = connectStmts(new IStmt[]{
+                new VarDeclStmt("v", new IntType()),
+                new VarDeclStmt("a", new RefType(new IntType())),
+                new AssignStmt("v", new ValueExp(new IntValue(10))),
+                new NewStmt("a", new ValueExp(new IntValue(22))),
+                new ForkStmt(
+                        connectStmts(new IStmt[]{
+                                new WriteHeapStmt("a", new ValueExp(new IntValue(30))),
+                                new AssignStmt("v", new ValueExp(new IntValue(32))),
+                                new PrintStmt(new VarExp("v")),
+                                new PrintStmt(new ReadHeapExp(new VarExp("a"))),
+                        })
+                ),
+                new PrintStmt(new VarExp("v")),
+                new PrintStmt(new ReadHeapExp(new VarExp("a")))
+        });
+        menu.addCommand(new RunExampleCommand("9", ex9.toString(), ex9));
+
         menu.show();
     }
 }

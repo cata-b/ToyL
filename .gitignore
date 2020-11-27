@@ -1,4 +1,5 @@
 ToyL.iml
 .idea
+/out/
 *.in
 *.out

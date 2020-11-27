@@ -1,10 +1,14 @@
 package model.collections;
 
-public class MyHeap<K, V> extends MyDictionary<K, V> implements MyIHeap<K, V> {
-    private int lastAddress = 1; // default RefValues point to 0
+import model.values.IValue;
+
+import java.util.concurrent.atomic.AtomicInteger;
+
+public class MyHeap extends MyDictionary<Integer, IValue> implements MyIHeap {
+    private static final AtomicInteger lastAddress = new AtomicInteger(0); // default RefValues point to 0
 
     @Override
     public int getNewAddress() {
-        return lastAddress++;
+        return lastAddress.addAndGet(1);
     }
 }
