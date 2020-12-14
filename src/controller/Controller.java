@@ -1,14 +1,11 @@
 package controller;
 
 import model.PrgState;
-import model.exceptions.FileException;
-import model.exceptions.MyException;
-import model.exceptions.StatementExecutionException;
+import model.exceptions.ProgramFinishedException;
 import model.values.IValue;
 import model.values.RefValue;
 import repository.IRepository;
 
-import java.io.File;
 import java.util.*;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutorService;
@@ -64,24 +61,42 @@ public class Controller implements IController {
         repository.setPrgList(prgList);
     }
 
+    private List<PrgState> garbageCollectedStep(List<PrgState> prgList) {
+        var heap = prgList.get(0).getHeap();
+        heap.setContent(garbageCollector(
+                new ArrayList<>(prgList.stream()
+                        .flatMap(prg -> getAddrFromSymTable(prg.getSymTable().getContent().values()).stream())
+                        .collect(Collectors.toSet())),
+                getAddrFromHeap(heap.getContent()),
+                heap.getContent()));
+        oneStepForAllPrg(prgList);
+        prgList = removeCompletedPrg(repository.getPrgList().getContent());
+        return prgList;
+    }
+
     @Override
     public void allStep() {
         executor = Executors.newFixedThreadPool(2);
-        List<PrgState> prgList = removeCompletedPrg(repository.getPrgList());
+        List<PrgState> prgList = removeCompletedPrg(repository.getPrgList().getContent());
         while (prgList.size() > 0) {
-            var heap = prgList.get(0).getHeap();
-            var symTblAddr =
-            heap.setContent(garbageCollector(
-                    new ArrayList<>(prgList.stream()
-                            .flatMap(prg -> getAddrFromSymTable(prg.getSymTable().getContent().values()).stream())
-                            .collect(Collectors.toSet())),
-                    getAddrFromHeap(heap.getContent()),
-                    heap.getContent()));
-            oneStepForAllPrg(prgList);
-            prgList = removeCompletedPrg(repository.getPrgList());
+            prgList = garbageCollectedStep(prgList);
         }
         executor.shutdownNow();
         repository.setPrgList(prgList);
+    }
+
+    @Override
+    public void oneStep() throws ProgramFinishedException {
+        executor = Executors.newFixedThreadPool(2);
+        List<PrgState> prgList = removeCompletedPrg(repository.getPrgList().getContent());
+        repository.setPrgList(prgList);
+        if (prgList.size() <= 0) {
+            executor.shutdownNow();
+            throw new ProgramFinishedException("Program is already finished");
+        }
+        prgList = garbageCollectedStep(prgList);
+        executor.shutdownNow();
+        repository.setPrgList(removeCompletedPrg(prgList));
     }
 
     private Map<Integer, IValue> garbageCollector(List<Integer> symTableAddr, List<Integer> heapAddr, Map<Integer, IValue> heap) {

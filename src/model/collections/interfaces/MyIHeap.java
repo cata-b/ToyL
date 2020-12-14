@@ -1,8 +1,6 @@
-package model.collections;
+package model.collections.interfaces;
 
 import model.values.IValue;
-
-import java.util.Map;
 
 public interface MyIHeap extends MyIDictionary<Integer, IValue> {
     /**

@@ -1,8 +1,8 @@
 package model.statements;
 
 import model.PrgState;
-import model.collections.MyIDictionary;
-import model.collections.MyIStack;
+import model.collections.interfaces.MyIDictionary;
+import model.collections.interfaces.MyIStack;
 import model.exceptions.TypeCheckException;
 import model.types.IType;
 import org.jetbrains.annotations.NotNull;

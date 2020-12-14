@@ -1,6 +1,6 @@
-package model.collections;
+package model.collections.nonObservable;
 
-import model.exceptions.EmptyCollectionException;
+import model.collections.interfaces.MyIList;
 import model.exceptions.IndexOutOfBoundsException;
 
 import java.util.ArrayList;
@@ -78,7 +78,7 @@ public class MyList<T> implements MyIList<T> {
     }
 
     @Override
-    public void clear() {
+    public synchronized void clear() {
         list.clear();
     }
 
@@ -88,7 +88,7 @@ public class MyList<T> implements MyIList<T> {
     }
 
     @Override
-    public void setContent(List<T> content) {
+    public synchronized void setContent(List<T> content) {
         list = new ArrayList<T>(content);
     }
 

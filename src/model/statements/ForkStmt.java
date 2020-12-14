@@ -1,13 +1,11 @@
 package model.statements;
 
 import model.PrgState;
-import model.collections.MyDictionary;
-import model.collections.MyIDictionary;
-import model.collections.MyIStack;
-import model.collections.MyStack;
+import model.collections.nonObservable.MyDictionary;
+import model.collections.interfaces.MyIDictionary;
+import model.collections.nonObservable.MyStack;
 import model.exceptions.MyException;
 import model.exceptions.TypeCheckException;
-import model.types.BoolType;
 import model.types.IType;
 import model.values.IValue;
 import org.jetbrains.annotations.NotNull;

@@ -1,9 +1,9 @@
 package model;
 
-import model.collections.MyIDictionary;
-import model.collections.MyIHeap;
-import model.collections.MyIList;
-import model.collections.MyIStack;
+import model.collections.interfaces.MyIDictionary;
+import model.collections.interfaces.MyIHeap;
+import model.collections.interfaces.MyIList;
+import model.collections.interfaces.MyIStack;
 import model.exceptions.EmptyCollectionException;
 import model.exceptions.MyException;
 import model.exceptions.ProgramFinishedException;

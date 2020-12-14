@@ -1,7 +1,7 @@
 package model.expressions;
 
-import model.collections.MyIDictionary;
-import model.collections.MyIHeap;
+import model.collections.interfaces.MyIDictionary;
+import model.collections.interfaces.MyIHeap;
 import model.exceptions.DivisionByZeroException;
 import model.exceptions.ExpressionEvaluationException;
 import model.exceptions.TypeCheckException;

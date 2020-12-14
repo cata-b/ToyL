@@ -1,7 +1,7 @@
 package model.statements;
 
 import model.PrgState;
-import model.collections.*;
+import model.collections.interfaces.MyIDictionary;
 import model.exceptions.InvalidTypeException;
 import model.exceptions.MyException;
 import model.exceptions.StatementExecutionException;

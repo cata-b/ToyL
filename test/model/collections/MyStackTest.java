@@ -1,5 +1,7 @@
 package model.collections;
 
+import model.collections.nonObservable.MyStack;
+
 public class MyStackTest implements MyIStackTest<MyStack<Object>> {
     private MyStack<Object> stack;
     private Object dummyObj;

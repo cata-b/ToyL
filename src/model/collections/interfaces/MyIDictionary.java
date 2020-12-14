@@ -1,4 +1,4 @@
-package model.collections;
+package model.collections.interfaces;
 
 import org.jetbrains.annotations.NotNull;
 

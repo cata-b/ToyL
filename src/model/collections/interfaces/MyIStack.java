@@ -1,6 +1,8 @@
-package model.collections;
+package model.collections.interfaces;
 
 import model.exceptions.EmptyCollectionException;
+
+import java.util.List;
 
 public interface MyIStack<T> {
     /**
@@ -31,4 +33,6 @@ public interface MyIStack<T> {
      * Empties the stack
      */
     void clear();
+
+    List<T> getContent();
 }

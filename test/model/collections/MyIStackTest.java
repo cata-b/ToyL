@@ -1,5 +1,6 @@
 package model.collections;
 
+import model.collections.interfaces.MyIStack;
 import model.exceptions.EmptyCollectionException;
 import org.junit.jupiter.api.*;
 

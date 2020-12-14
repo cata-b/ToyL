@@ -1,9 +1,8 @@
 package model.statements;
 
 import model.PrgState;
-import model.collections.MyDictionary;
-import model.collections.MyIDictionary;
-import model.collections.MyIStack;
+import model.collections.interfaces.MyIDictionary;
+import model.collections.interfaces.MyIStack;
 import model.exceptions.InvalidTypeException;
 import model.exceptions.StatementExecutionException;
 import model.exceptions.TypeCheckException;

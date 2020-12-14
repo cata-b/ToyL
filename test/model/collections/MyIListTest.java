@@ -1,5 +1,6 @@
 package model.collections;
 
+import model.collections.interfaces.MyIList;
 import model.exceptions.IndexOutOfBoundsException;
 import org.junit.jupiter.api.*;
 import static org.junit.jupiter.api.Assertions.*;

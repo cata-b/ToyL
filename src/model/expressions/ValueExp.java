@@ -1,7 +1,7 @@
 package model.expressions;
 
-import model.collections.MyIDictionary;
-import model.collections.MyIHeap;
+import model.collections.interfaces.MyIDictionary;
+import model.collections.interfaces.MyIHeap;
 import model.types.IType;
 import model.values.IValue;
 import org.jetbrains.annotations.NotNull;

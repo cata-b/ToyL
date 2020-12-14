@@ -1,5 +1,6 @@
-package model.collections;
+package model.collections.nonObservable;
 
+import model.collections.interfaces.MyIDictionary;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.HashMap;

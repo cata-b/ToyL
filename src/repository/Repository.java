@@ -1,31 +1,29 @@
 package repository;
 
 import model.PrgState;
-import model.collections.MyIList;
-import model.collections.MyList;
+import model.collections.interfaces.MyIList;
+import model.collections.nonObservable.MyList;
 import model.exceptions.FileException;
-import model.exceptions.IndexOutOfBoundsException;
-import model.exceptions.MyException;
-import model.exceptions.NoProgramLoadedException;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.*;
 import java.util.List;
 
 public class Repository implements IRepository {
-    private final MyIList<PrgState> programs = new MyList<>();
+    private final MyIList<PrgState> programs;
     private final String logFilePath;
 
-    public Repository(String logFilePath) throws FileException {
+    public Repository(MyIList<PrgState> underlyingList, String logFilePath) throws FileException {
         this.logFilePath = logFilePath;
+        programs = underlyingList;
         try (var logFile = new FileWriter(logFilePath, true)) {}
         catch (IOException e) {
             throw new FileException("Log file could not be accessed");
         }
     }
 
-    public List<PrgState> getPrgList() {
-        return programs.getContent();
+    public MyIList<PrgState> getPrgList() {
+        return programs;
     }
 
     @Override

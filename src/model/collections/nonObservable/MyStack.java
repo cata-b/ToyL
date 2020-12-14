@@ -1,9 +1,13 @@
-package model.collections;
+package model.collections.nonObservable;
 
+import model.collections.interfaces.MyIStack;
 import model.exceptions.EmptyCollectionException;
 
+import java.util.ArrayList;
 import java.util.Deque;
 import java.util.LinkedList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class MyStack<T> implements MyIStack<T> {
     private final Deque<T> stack = new LinkedList<>();
@@ -38,6 +42,11 @@ public class MyStack<T> implements MyIStack<T> {
     @Override
     public void clear() {
         stack.clear();
+    }
+
+    @Override
+    public List<T> getContent() {
+        return new ArrayList<>(stack);
     }
 
     @Override

@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.windows.MainWindow.MainWindowController">
+   <children>
+      <VBox prefHeight="400.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <ToolBar nodeOrientation="RIGHT_TO_LEFT" prefHeight="40.0" prefWidth="200.0" VBox.vgrow="NEVER">
+              <items>
+                <Button fx:id="btnOneStep" mnemonicParsing="false" onAction="#btnOneStepClicked" text="One Step" />
+                  <Button fx:id="btnSelectExample" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" onAction="#btnSelectExampleClicked" text="Select Example" />
+                  <Button fx:id="btnRestart" layoutX="66.0" layoutY="10.0" mnemonicParsing="false" onAction="#btnRestartClicked" text="Restart" />
+              </items>
+            </ToolBar>
+            <SplitPane dividerPositions="0.29797979797979796, 0.5" prefHeight="400.0" prefWidth="600.0" VBox.vgrow="ALWAYS">
+              <items>
+                  <ScrollPane fitToWidth="true" hbarPolicy="NEVER" prefHeight="362.4" prefWidth="175.2">
+                    <content>
+                        <VBox>
+                           <children>
+                              <TitledPane animated="false" text="Heap">
+                                <content>
+                                    <TableView fx:id="tableViewHeap" prefHeight="48.0">
+                                        <placeholder>
+                                            <Label />
+                                        </placeholder>
+                                        <columns>
+                                            <TableColumn fx:id="tableViewHeapKey" prefWidth="75.0" text="Address" />
+                                            <TableColumn fx:id="tableViewHeapValue" prefWidth="75.0" text="Value" />
+                                        </columns>
+                                       <columnResizePolicy>
+                                          <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                                       </columnResizePolicy>
+                                    </TableView>
+                                </content>
+                              </TitledPane>
+                              <TitledPane animated="false" layoutX="10.0" layoutY="10.0" text="Files">
+                                 <content>
+                                    <ListView fx:id="listViewFiles" prefHeight="24.0" />
+                                 </content>
+                              </TitledPane>
+                              <TitledPane animated="false" layoutX="10.0" layoutY="57.0" text="Out">
+                                 <content>
+                                     <ListView fx:id="listViewOut" prefHeight="24.0" />
+                                 </content>
+                              </TitledPane>
+                              <TitledPane animated="false" contentDisplay="RIGHT" layoutX="10.0" layoutY="104.0" text="Program States">
+                                 <content>
+                                     <ListView fx:id="listViewPrgStates" prefHeight="24.0" />
+                                 </content>
+                                 <graphic>
+                                    <TextField fx:id="textFieldPrgStateCount" editable="false" prefHeight="25.0" prefWidth="21.0" text="0" />
+                                 </graphic>
+                              </TitledPane>
+                           </children>
+                        </VBox>
+                    </content>
+                  </ScrollPane>
+                  <HBox>
+                     <children>
+                        <VBox HBox.hgrow="ALWAYS">
+                           <children>
+                              <ListView fx:id="listViewExeStack" VBox.vgrow="ALWAYS" />
+                           </children>
+                        </VBox>
+                     </children>
+                  </HBox>
+                  <HBox>
+                     <children>
+                        <VBox HBox.hgrow="ALWAYS">
+                           <children>
+                              <TableView fx:id="tableViewSymTable" VBox.vgrow="ALWAYS">
+                                  <placeholder>
+                                      <Label text="No variables to show" />
+                                  </placeholder>
+                                <columns>
+                                  <TableColumn fx:id="tableViewSymTableKey" prefWidth="75.0" text="Name" />
+                                  <TableColumn fx:id="tableViewSymTableValue" prefWidth="75.0" text="Value" />
+                                </columns>
+                                 <columnResizePolicy>
+                                    <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                                 </columnResizePolicy>
+                              </TableView>
+                           </children>
+                        </VBox>
+                     </children>
+                  </HBox>
+              </items>
+            </SplitPane>
+         </children>
+      </VBox>
+   </children>
+</AnchorPane>

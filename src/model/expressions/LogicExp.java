@@ -1,12 +1,11 @@
 package model.expressions;
 
-import model.collections.MyIDictionary;
-import model.collections.MyIHeap;
+import model.collections.interfaces.MyIDictionary;
+import model.collections.interfaces.MyIHeap;
 import model.exceptions.ExpressionEvaluationException;
 import model.exceptions.TypeCheckException;
 import model.types.BoolType;
 import model.types.IType;
-import model.types.IntType;
 import model.values.BoolValue;
 import model.values.IValue;
 import org.jetbrains.annotations.NotNull;

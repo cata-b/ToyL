@@ -1,9 +1,7 @@
 package model.expressions;
 
-import model.collections.MyIDictionary;
-import model.collections.MyIHeap;
-import model.exceptions.ExpressionEvaluationException;
-import model.exceptions.TypeCheckException;
+import model.collections.interfaces.MyIDictionary;
+import model.collections.interfaces.MyIHeap;
 import model.types.IType;
 import model.values.IValue;
 import org.jetbrains.annotations.NotNull;

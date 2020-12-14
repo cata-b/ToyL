@@ -1,5 +1,6 @@
 package model.collections;
 
+import model.collections.interfaces.MyIDictionary;
 import org.junit.jupiter.api.*;
 
 import java.util.Map;

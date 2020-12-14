@@ -1,12 +1,11 @@
-package view;
+package CLI.view;
 
 import controller.Controller;
 import model.PrgState;
-import model.collections.MyDictionary;
-import model.collections.MyHeap;
-import model.collections.MyList;
-import model.collections.MyStack;
-import model.exceptions.FileException;
+import model.collections.nonObservable.MyDictionary;
+import model.collections.nonObservable.MyHeap;
+import model.collections.nonObservable.MyList;
+import model.collections.nonObservable.MyStack;
 import model.exceptions.MyException;
 import model.statements.IStmt;
 import repository.IRepository;
@@ -19,17 +18,16 @@ import java.io.InputStreamReader;
 public class RunExampleCommand extends Command {
     private final IStmt stmt;
 
-    private Controller createControllerWithProgram(IStmt program, String logfile) throws MyException {
-        program.typeCheck(new MyDictionary<>());
-        PrgState state = new PrgState(new MyStack<>(), new MyDictionary<>(), new MyList<>(), new MyDictionary<>(), new MyHeap(), program);
-        IRepository repo = new Repository(logfile);
-        repo.addProgram(state);
-        return new Controller(repo);
-    }
-
     public RunExampleCommand(String key, String desc, IStmt stmt) {
         super(key, desc);
         this.stmt = stmt;
+    }
+
+    private static Controller createControllerWithProgram(IStmt program, IRepository repository) throws MyException {
+        program.typeCheck(new MyDictionary<>());
+        PrgState state = new PrgState(new MyStack<>(), new MyDictionary<>(), new MyList<>(), new MyDictionary<>(), new MyHeap(), program);
+        repository.addProgram(state);
+        return new Controller(repository);
     }
 
     @Override
@@ -45,7 +43,7 @@ public class RunExampleCommand extends Command {
         }
         Controller ctr;
         try {
-            ctr = createControllerWithProgram(stmt.copy(), logfile);
+            ctr = createControllerWithProgram(stmt.copy(), new Repository(new MyList<>(), logfile));
         } catch (MyException e) {
             System.out.println("Exception has occurred when trying to begin execution: " + e.getMessage());
             return;

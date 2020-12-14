@@ -1,11 +1,12 @@
 package repository;
 
 import model.PrgState;
+import model.collections.interfaces.MyIList;
 
 import java.util.List;
 
 public interface IRepository {
-    List<PrgState> getPrgList();
+    MyIList<PrgState> getPrgList();
     void setPrgList(List<PrgState> list);
     void logPrgStateExec(PrgState state);
     void logPrgError(String message);

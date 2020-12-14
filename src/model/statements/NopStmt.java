@@ -1,9 +1,7 @@
 package model.statements;
 
 import model.PrgState;
-import model.collections.MyIDictionary;
-import model.exceptions.MyException;
-import model.exceptions.TypeCheckException;
+import model.collections.interfaces.MyIDictionary;
 import model.types.IType;
 import org.jetbrains.annotations.NotNull;
 

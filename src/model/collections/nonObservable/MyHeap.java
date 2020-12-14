@@ -1,5 +1,6 @@
-package model.collections;
+package model.collections.nonObservable;
 
+import model.collections.interfaces.MyIHeap;
 import model.values.IValue;
 
 import java.util.concurrent.atomic.AtomicInteger;

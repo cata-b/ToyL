@@ -1,4 +1,4 @@
-package model.collections;
+package model.collections.interfaces;
 
 import model.exceptions.EmptyCollectionException;
 import model.exceptions.IndexOutOfBoundsException;
