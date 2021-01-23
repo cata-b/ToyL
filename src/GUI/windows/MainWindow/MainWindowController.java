@@ -10,7 +10,6 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.collections.ObservableMap;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -67,8 +66,6 @@ public class MainWindowController {
 
     @FXML
     private TableView<Map.Entry<String, IValue>> tableViewSymTable;
-    private final ListProperty<Map.Entry<String, IValue>> tableViewSymTableContent = new SimpleListProperty<>(FXCollections.observableList(new ArrayList<>()));
-    ChangeListener<ObservableMap<String, IValue>> tableViewSymTableFiller;
     @FXML
     private TableColumn<Map.Entry<String, IValue>, String> tableViewSymTableKey;
     @FXML
@@ -76,9 +73,6 @@ public class MainWindowController {
 
     @FXML
     private TextField textFieldPrgStateCount;
-
-    @FXML
-    private ToggleButton btnToggleTheme;
 
     private IStmt currentProgram;
 
